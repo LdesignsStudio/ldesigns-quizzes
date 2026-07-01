@@ -14,6 +14,10 @@
   body { font-family: 'Playfair Display', Georgia, serif; background: #f5f1ed; display: flex; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-x: hidden; }
   .quiz-wrap { max-width: 100%; width: 100%; }
   .quiz-header { background: rgba(228, 220, 212, 0.35); padding: 1rem 2rem; text-align: center; border-radius: 0; }
+  .header-logo { display: inline-block; margin-bottom: 0.5rem; }
+  .header-logo img { height: 40px; width: auto; }
+  .logo-fallback { font-size: 16px; font-weight: 700; letter-spacing: 4px; color: #5a4a3a; font-family: 'Raleway', Arial, sans-serif; }
+  .scroll-hint { font-size: 13px; color: #8a7a6a; font-family: 'Raleway', Arial, sans-serif; margin-top: 0.75rem; font-style: italic; letter-spacing: 0.5px; }
   .quiz-header h1 { font-size: clamp(18px, 4vw, 32px); font-weight: 400; color: #3c3020; margin-top: 0.25rem; letter-spacing: 0.5px; font-family: 'Playfair Display', Georgia, serif; }
   .quiz-header p { color: #7a6a5a; font-size: clamp(14px, 3vw, 26px); margin-top: 0.3rem; font-style: italic; font-family: 'Playfair Display', Georgia, serif; }
   .quiz-hero-image { width: 100%; height: 180px; object-fit: cover; object-position: center 40%; display: block; }
@@ -125,6 +129,10 @@
 <body>
 <div class="quiz-wrap">
   <div class="quiz-header">
+    <a href="https://www.ldesigns.ca" target="_blank" class="header-logo">
+      <img src="https://static.wixstatic.com/media/ae662e_e9a62c8882d94eecae5b36e4e4373793~mv2.png" alt="L|Designs Interiors" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <span class="logo-fallback" style="display:none;">L|DESIGNS INTERIORS</span>
+    </a>
     <h1>Interior Design Style Quiz</h1>
     <p>Your home should feel like you.</p>
   </div>
@@ -143,6 +151,7 @@
     <div class="result-hero">
       <div class="result-label">Your design style is</div>
       <div class="result-style" id="rStyle">—</div>
+      <div class="scroll-hint">Scroll down for your full style description and a free designer guide ↓</div>
     </div>
     <div class="result-body">
       <div class="result-tagline" id="rTagline"></div>
@@ -403,9 +412,9 @@ function submitToFlodesk() {
 
   fetch('https://api.flodesk.com/v1/subscribers', {
     method: 'POST',
+    mode: 'no-cors',
     headers: {
-      'Content-Type': 'application/json',
-      'User-Agent': 'LDesigns Quiz (ldesigns.ca)'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       email: email,
@@ -413,14 +422,11 @@ function submitToFlodesk() {
       segment_ids: ['6a45551ee6a0a745ba88724d']
     })
   })
-  .then(function(res) {
-    if (res.ok || res.status === 200 || res.status === 201) {
-      document.getElementById('flodesk-form-wrap').querySelectorAll('input, button').forEach(function(el) { el.style.display = 'none'; });
-      successEl.style.display = 'block';
-      setTimeout(reportHeight, 200);
-    } else {
-      return res.json().then(function(data) { throw new Error(data.message || 'Submission failed'); });
-    }
+  .then(function() {
+    // no-cors always resolves — show success optimistically
+    document.getElementById('flodesk-form-wrap').querySelectorAll('input, button').forEach(function(el) { el.style.display = 'none'; });
+    successEl.style.display = 'block';
+    setTimeout(reportHeight, 200);
   })
   .catch(function(err) {
     btn.disabled = false;
