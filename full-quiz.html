@@ -21,8 +21,8 @@
   .header-logo { display: inline-block; margin-bottom: 0.5rem; }
   .header-logo img { height: 40px; width: auto; }
   .logo-fallback { font-size: 16px; font-weight: 700; letter-spacing: 4px; color: #5a4a3a; font-family: 'Raleway', Arial, sans-serif; }
-  .scroll-hint { font-size: 26px; color: #8a7a6a; font-family: 'Raleway', Arial, sans-serif; margin-top: 0.75rem; font-style: italic; letter-spacing: 0.5px; line-height: 1.6; }
-  .scroll-hint .arrow { font-size: 32px; display: block; margin-top: 4px; font-style: normal; }
+  .scroll-hint { font-size: 15px; color: #8a7a6a; font-family: 'Raleway', Arial, sans-serif; margin-top: 1rem; margin-bottom: 0.5rem; font-style: italic; letter-spacing: 0.5px; line-height: 1.6; }
+  .scroll-hint .arrow { font-size: 18px; font-style: normal; margin-left: 4px; }
   /* Progress */
   .progress-bar { background: #c8bdb4; height: 4px; }
   .progress-fill { background: #5a4a3a; height: 4px; transition: width 0.4s ease; }
@@ -55,7 +55,7 @@
   /* Results */
   .result-screen { display: none; background: #fff; border: 0.5px solid #e0d8d0; }
   .result-hero { background: rgba(228, 220, 212, 0.35); padding: 2.5rem 2rem; text-align: center; }
-  .result-label { font-size: 11px; letter-spacing: 3px; color: #8a7a6a; text-transform: uppercase; font-family: 'Raleway', Arial, sans-serif; }
+  .result-label { font-size: 14px; letter-spacing: 3px; color: #8a7a6a; text-transform: uppercase; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; }
   .result-primary { font-size: clamp(28px, 8vw, 84px) !important; font-weight: 500; color: #3c3020; margin: 0.5rem 0 0.25rem; letter-spacing: 2px; font-family: 'Playfair Display', Georgia, serif; text-transform: uppercase !important; line-height: 1.1; word-break: break-word; }
   .result-secondary-label { font-size: 12px; letter-spacing: 2px; color: #8a7a6a; text-transform: uppercase; font-family: 'Raleway', Arial, sans-serif; margin-top: 0.75rem; }
   .result-secondary { font-size: clamp(18px, 4vw, 36px); font-weight: 400; color: #7a6a5a; font-family: 'Playfair Display', Georgia, serif; text-transform: uppercase; letter-spacing: 2px; }
@@ -81,7 +81,7 @@
   /* Upsell - two column */
   .upsell { border: 2px solid #7a6a5a; border-radius: 8px; margin-bottom: 1.25rem; background: #faf8f6; overflow: hidden; }
   .upsell-inner { display: flex; align-items: stretch; }
-  .upsell-image { width: 40%; flex-shrink: 0; }
+  .upsell-image { width: 24%; flex-shrink: 0; }
   .upsell-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .upsell-content { flex: 1; padding: 2rem; text-align: left; }
   .upsell-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
@@ -91,6 +91,9 @@
   .upsell-features div { font-size: 14px; color: #5a4a3a; font-family: 'Raleway', Arial, sans-serif; padding: 4px 0; font-weight: 500; }
   .upsell a { display: inline-block; padding: 11px 28px; background: #3c2e22; color: #fff; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 700; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; }
   .upsell a:hover { background: #5a4a3a; }
+  /* Rulebook upsell button */
+  .rulebook-btn { display: inline-block; padding: 12px 28px; background: #3c2e22; color: #fff; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 700; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; margin-top: 0.25rem; }
+  .rulebook-btn:hover { background: #5a4a3a; }
   /* Flodesk embed wrapper */
   .flodesk-wrap { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #e6ded6; }
   .flodesk-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
@@ -166,7 +169,6 @@
       <div class="result-primary" id="rPrimary">—</div>
       <div class="result-secondary-label" id="rSecondaryLabel" style="display:none;">Your secondary style</div>
       <div class="result-secondary" id="rSecondary"></div>
-      <div class="scroll-hint">Scroll down for your full style description and free designer guide<span class="arrow">↓</span></div>
     </div>
     <div class="result-body">
       <div class="hybrid-badge" id="hybridBadge">
@@ -175,7 +177,6 @@
         <div class="hybrid-desc" id="hybridDesc"></div>
       </div>
       <div class="result-tagline" id="rTagline"></div>
-      <div class="scroll-hint">Scroll down for your full style description and free designer guide<span class="arrow">↓</span></div>
       <div class="result-desc" id="rDesc"></div>
       <div class="score-section">
         <h3>Your complete style breakdown</h3>
@@ -187,78 +188,29 @@
         <a href="https://www.ldesigns.ca/consultations/signature-consultation" target="_blank">Book a Design Consultation</a>
       </div>
 
-      <!-- FREE GUIDE UPSELL — Flodesk replaces old EmailJS gate -->
+      <!-- RULEBOOK UPSELL -->
       <div class="upsell" id="tipsUpsell" style="display:none;">
         <div class="upsell-inner">
           <div class="upsell-image">
-            <img src="https://static.wixstatic.com/media/ae662e_e35f4421704f4d2dbf312e545ab9be96~mv2.jpg" alt="L|Designs Interiors" onload="setTimeout(reportHeight,100);">
+            <img src="https://static.wixstatic.com/media/ae662e_c6fa6bd1bec44713be1b51db88e14613~mv2.jpg" alt="The Interior Designer's Rulebook" onload="setTimeout(reportHeight,100);">
           </div>
           <div class="upsell-content">
-            <div class="upsell-eyebrow">Free guide</div>
-            <h3>10 Things Your Decorator Knows That You Don't</h3>
-            <p class="upsell-sub">Insider design rules from 18 years of working with GTA homeowners — rug sizing, paint undertones, lighting placement, and more. Enter your email and it's yours, free.</p>
-            <!-- Flodesk inline form -->
-            <div class="flodesk-wrap">
-              <div class="flodesk-eyebrow">Get the free guide</div>
-              <div id="flodesk-form">
-                <input type="text" id="fd-first-name" placeholder="First name" autocomplete="given-name" style="width:100%;padding:11px 14px;margin-bottom:0.75rem;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:'Raleway',Arial,sans-serif;box-sizing:border-box;">
-                <input type="email" id="fd-email" placeholder="Email address" autocomplete="email" style="width:100%;padding:11px 14px;margin-bottom:0.75rem;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:'Raleway',Arial,sans-serif;box-sizing:border-box;">
-                <button id="fd-submit" onclick="submitToFlodesk()" style="display:inline-block;padding:11px 28px;background:#3c2e22;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Raleway',Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;transition:background 0.15s;">Get the Free Guide</button>
-                <div id="fd-error" style="color:#b3261e;font-size:12px;margin-top:0.5rem;display:none;font-family:'Raleway',Arial,sans-serif;"></div>
-                <div id="fd-success" style="color:#3c7a3c;font-size:14px;margin-top:0.75rem;display:none;font-family:'Raleway',Arial,sans-serif;font-weight:500;">You're in! Check your inbox for your free guide.</div>
-              </div>
-              <script>
-                function submitToFlodesk() {
-                  var name = document.getElementById('fd-first-name').value.trim();
-                  var email = document.getElementById('fd-email').value.trim();
-                  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                  var errorEl = document.getElementById('fd-error');
-                  var successEl = document.getElementById('fd-success');
-                  var btn = document.getElementById('fd-submit');
-
-                  errorEl.style.display = 'none';
-
-                  if (!emailPattern.test(email)) {
-                    errorEl.textContent = 'Please enter a valid email address.';
-                    errorEl.style.display = 'block';
-                    return;
-                  }
-
-                  btn.disabled = true;
-                  btn.textContent = 'Sending...';
-
-                  fetch('https://api.flodesk.com/v1/subscribers', {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                      email: email,
-                      first_name: name,
-                      segment_ids: ['6a45551ee6a0a745ba88724d']
-                    })
-                  })
-                  .then(function() {
-                    document.getElementById('flodesk-form').style.display = 'none';
-                    successEl.style.display = 'block';
-                    setTimeout(reportHeight, 200);
-                  })
-                  .catch(function(err) {
-                    btn.disabled = false;
-                    btn.textContent = 'Get the Free Guide';
-                    errorEl.textContent = 'Something went wrong — please try again.';
-                    errorEl.style.display = 'block';
-                    console.warn('Flodesk error:', err);
-                  });
-                }
-              </script>
-              <p style="font-size:11px;color:#999;margin-top:0.75rem;font-family:'Raleway',Arial,sans-serif;">By submitting, you agree to receive your guide and occasional design tips from Ldesigns Interiors. See our <a href="https://www.ldesigns.ca/privacy" target="_blank" style="color:#7a6a5a;">Privacy Policy</a>.</p>
+            <div class="upsell-eyebrow">Now that you know your style</div>
+            <h3>The Interior Designer's Rulebook</h3>
+            <p class="upsell-sub">250+ tips to make any home look expensive — covering layout, paint undertones, lighting, furniture sizing, kitchens, bathrooms, renovations, and whole-home cohesion. The same advice I share in consultations, now in one downloadable guide.</p>
+            <div class="upsell-features">
+              <div>✦ 12 sections covering every room</div>
+              <div>✦ Designer measurements quick reference</div>
+              <div>✦ Common mistakes to avoid</div>
+              <div>✦ Spend vs save guidance</div>
+              <div>✦ Instant PDF download</div>
             </div>
+            <a href="YOUR_STAN_STORE_URL" target="_blank" class="rulebook-btn">Get the Rulebook — $27 CAD →</a>
+            <div class="upsell-nudge">You know your style. Now design with confidence.</div>
           </div>
         </div>
       </div>
-      <!-- END FREE GUIDE UPSELL -->
+      <!-- END RULEBOOK UPSELL -->
 
       <div class="social-section">
         <h3>Share your result</h3>
@@ -392,13 +344,24 @@ function selectOption(i) {
     el.classList.toggle('selected', idx === i);
   });
   document.getElementById('nextBtn').disabled = false;
+  // Auto-advance after short delay so selected state is visible
+  setTimeout(function() { nextQ(); }, 400);
 }
 function nextQ() {
-  if (current < questions.length - 1) { current++; render(); }
-  else { showResult(); }
+  if (current < questions.length - 1) {
+    current++;
+    render();
+    window.scrollTo(0, 0);
+    window.parent.postMessage({ type: 'scrollToTop' }, '*');
+  } else { showResult(); }
 }
 function prevQ() {
-  if (current > 0) { current--; render(); }
+  if (current > 0) {
+    current--;
+    render();
+    window.scrollTo(0, 0);
+    window.parent.postMessage({ type: 'scrollToTop' }, '*');
+  }
 }
 function showResult() {
   var scores = {};
