@@ -17,8 +17,8 @@
   .header-logo { display: inline-block; margin-bottom: 0.5rem; }
   .header-logo img { height: 40px; width: auto; }
   .logo-fallback { font-size: 16px; font-weight: 700; letter-spacing: 4px; color: #5a4a3a; font-family: 'Raleway', Arial, sans-serif; }
-  .scroll-hint { font-size: 26px; color: #8a7a6a; font-family: 'Raleway', Arial, sans-serif; margin-top: 0.75rem; font-style: italic; letter-spacing: 0.5px; line-height: 1.6; }
-  .scroll-hint .arrow { font-size: 32px; display: block; margin-top: 4px; font-style: normal; }
+  .scroll-hint { font-size: 15px; color: #8a7a6a; font-family: 'Raleway', Arial, sans-serif; margin-top: 1rem; margin-bottom: 0.5rem; font-style: italic; letter-spacing: 0.5px; line-height: 1.6; }
+  .scroll-hint .arrow { font-size: 18px; font-style: normal; margin-left: 4px; }
   .quiz-header h1 { font-size: clamp(18px, 4vw, 32px); font-weight: 400; color: #3c3020; margin-top: 0.25rem; letter-spacing: 0.5px; font-family: 'Playfair Display', Georgia, serif; }
   .quiz-header p { color: #7a6a5a; font-size: clamp(14px, 3vw, 26px); margin-top: 0.3rem; font-style: italic; font-family: 'Playfair Display', Georgia, serif; }
   .quiz-hero-image { width: 100%; height: 180px; object-fit: cover; object-position: center 40%; display: block; }
@@ -42,10 +42,10 @@
   .btn-ghost:hover { border-color: #7a6a5a; }
   .result-screen { display: none; background: #fff; border: 1px solid #e0d8d0; }
   .result-hero { background: rgba(228, 220, 212, 0.35); padding: 2.5rem 2rem; text-align: center; }
-  .result-label { font-size: 11px; letter-spacing: 3px; color: #8a7a6a; text-transform: uppercase; font-family: 'Raleway', Arial, sans-serif; }
+  .result-label { font-size: 14px; letter-spacing: 3px; color: #8a7a6a; text-transform: uppercase; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; }
   .result-style { font-size: clamp(28px, 8vw, 84px) !important; font-weight: 500; color: #3c3020; margin: 0.5rem 0; letter-spacing: 2px; font-family: 'Playfair Display', Georgia, serif; text-transform: uppercase !important; line-height: 1.1; word-break: break-word; }
   .result-body { padding: 2rem; text-align: center; }
-  .result-tagline { font-size: 28px; font-style: italic; color: #5a4a3a; line-height: 1.6; margin-bottom: 1.25rem; text-align: center; font-family: 'Playfair Display', Georgia, serif; }
+  .result-tagline { font-size: 18px; font-style: italic; color: #5a4a3a; line-height: 1.6; margin-bottom: 1.25rem; text-align: center; font-family: 'Playfair Display', Georgia, serif; }
   .result-desc { font-size: 18px; color: #555; line-height: 1.75; margin-bottom: 1.75rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; text-align: center; max-width: 620px; margin-left: auto; margin-right: auto; }
   .score-section h3 { font-size: 11px; letter-spacing: 3px; color: #7a6a5a; text-transform: uppercase; margin-bottom: 1rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; text-align: center; }
   .score-bars { margin-bottom: 1.75rem; }
@@ -70,7 +70,7 @@
   /* Flodesk gate */
   .flodesk-gate { border: 2px solid #7a6a5a; border-radius: 8px; margin-bottom: 1.25rem; background: #faf8f6; overflow: hidden; }
   .flodesk-gate-inner { display: flex; align-items: stretch; }
-  .flodesk-gate-image { width: 40%; flex-shrink: 0; }
+  .flodesk-gate-image { width: 24%; flex-shrink: 0; }
   .flodesk-gate-image img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
   .flodesk-gate-content { flex: 1; padding: 2rem; text-align: left; }
   .flodesk-gate-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
@@ -152,7 +152,6 @@
     <div class="result-hero">
       <div class="result-label">Your design style is</div>
       <div class="result-style" id="rStyle">—</div>
-      <div class="scroll-hint">Scroll down for your full style description and a free designer guide<span class="arrow">↓</span></div>
     </div>
     <div class="result-body">
       <div class="result-tagline" id="rTagline"></div>
@@ -334,15 +333,26 @@ function selectOption(i) {
     el.classList.toggle('selected', idx === i);
   });
   document.getElementById('nextBtn').disabled = false;
+  // Auto-advance after short delay so selected state is visible
+  setTimeout(function() { nextQ(); }, 400);
 }
 
 function nextQ() {
-  if (current < questions.length - 1) { current++; render(); }
-  else { showResult(); }
+  if (current < questions.length - 1) {
+    current++;
+    render();
+    window.scrollTo(0, 0);
+    window.parent.postMessage({ type: 'scrollToTop' }, '*');
+  } else { showResult(); }
 }
 
 function prevQ() {
-  if (current > 0) { current--; render(); }
+  if (current > 0) {
+    current--;
+    render();
+    window.scrollTo(0, 0);
+    window.parent.postMessage({ type: 'scrollToTop' }, '*');
+  }
 }
 
 function trackUpsellClick() {
