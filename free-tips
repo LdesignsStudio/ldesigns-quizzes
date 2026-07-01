@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 Things Your Decorator Knows That You Don't | L|Designs Interiors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: auto; overflow: visible; }
+  body { font-family: 'Raleway', Arial, sans-serif; background: #f5f1ed; display: block; padding: 0 150px 0.5rem; }
+  .page-wrap { max-width: 100%; width: 100%; }
+  .page-header { background: #ffffff; padding: 1.25rem 2rem; text-align: center; border-bottom: 1px solid #e6ded6; }
+  .page-header img { max-width: 160px; height: auto; }
+  .hero-image { width: 100%; height: 320px; object-fit: cover; object-position: center 40%; display: block; }
+  .hero-section { background: rgba(228, 220, 212, 0.35); padding: 3rem 2rem; text-align: center; }
+  .hero-eyebrow { font-size: 22px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.75rem; }
+  .hero-section h1 { font-size: clamp(26px, 5vw, 48px); font-weight: 500; color: #3c3020; font-family: 'Playfair Display', Georgia, serif; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-section p.hero-sub { font-size: clamp(15px, 2.5vw, 20px); color: #7a6a5a; font-style: italic; font-family: 'Playfair Display', Georgia, serif; max-width: 640px; margin: 0 auto; line-height: 1.6; }
+  .benefits-section { background: #fff; border: 0.5px solid #e0d8d0; padding: 2.5rem 2rem; }
+  .benefits-section h2 { font-size: 18px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; text-align: center; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 1.75rem; }
+  .benefits-list { max-width: 640px; margin: 0 auto; }
+  .benefit-item { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid #f0eae4; }
+  .benefit-item:last-child { border-bottom: none; }
+  .benefit-num { width: 30px; height: 30px; border-radius: 50%; background: #f5f1ed; border: 1.5px solid #c0b4a8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #7a6a5a; flex-shrink: 0; font-family: 'Raleway', Arial, sans-serif; }
+  .benefit-text { font-size: 15px; color: #3c3c3c; line-height: 1.6; padding-top: 4px; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
+  .benefit-text strong { font-weight: 700; color: #2c2c2c; }
+  .gate-section { background: #faf8f6; border: 2px solid #7a6a5a; border-radius: 8px; margin: 2rem 0; padding: 2.5rem 2rem; text-align: center; }
+  .gate-section .gate-eyebrow-main { font-size: 15px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.75rem; }
+  .gate-section h2 { font-size: clamp(20px, 3.5vw, 28px); font-weight: 500; color: #2c2c2c; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.75rem; }
+  .gate-section p.gate-intro-main { font-size: 14px; color: #666; line-height: 1.7; margin-bottom: 1.75rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .gate-form { max-width: 420px; margin: 0 auto; text-align: left; }
+  .gate-form input { width: 100%; padding: 12px 16px; margin-bottom: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: 'Raleway', Arial, sans-serif; }
+  .gate-form input:focus { outline: none; border-color: #7a6a5a; }
+  .gate-form button.gate-submit { display: block; width: 100%; padding: 13px 28px; background: #3c2e22; color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; margin-top: 0.25rem; }
+  .gate-form button.gate-submit:hover { background: #5a4a3a; }
+  .gate-form button.gate-submit:disabled { opacity: 0.6; cursor: default; }
+  .gate-error { color: #b3261e; font-size: 12px; margin-top: 0.5rem; display: none; font-family: 'Raleway', Arial, sans-serif; text-align: center; }
+  .gate-privacy { font-size: 11px; color: #999; margin-top: 1.25rem; line-height: 1.6; font-family: 'Raleway', Arial, sans-serif; text-align: center; }
+  .gate-privacy a { color: #7a6a5a; }
+  .gate-success { display: none; text-align: center; }
+  .gate-success .check { font-size: 40px; color: #7a6a5a; margin-bottom: 0.5rem; }
+  .gate-success h3 { font-size: 20px; font-weight: 500; color: #2c2c2c; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.5rem; }
+  .gate-success p { font-size: 14px; color: #666; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; line-height: 1.6; }
+  .quiz-nudge { background: #7a6a5a; border-radius: 8px; padding: 2.5rem 2rem; text-align: center; margin-top: 1.5rem; }
+  .quiz-nudge .eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.8); font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
+  .quiz-nudge h3 { font-size: clamp(20px, 3vw, 28px); font-weight: 400; color: #fff; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.75rem; }
+  .quiz-nudge p { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 1.5rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; max-width: 540px; margin-left: auto; margin-right: auto; }
+  .quiz-nudge a { display: inline-block; padding: 12px 32px; background: #fff; color: #7a6a5a; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 700; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; }
+  .quiz-nudge a:hover { background: rgba(255,255,255,0.9); }
+  .faq-section { padding: 2.5rem 2rem; }
+  .faq-section h2 { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; text-align: center; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 1.75rem; }
+  .faq-item { max-width: 640px; margin: 0 auto 1.25rem; }
+  .faq-item h4 { font-size: 15px; font-weight: 600; color: #2c2c2c; margin-bottom: 0.35rem; font-family: 'Raleway', Arial, sans-serif; }
+  .faq-item p { font-size: 14px; color: #666; line-height: 1.7; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
+  .footer-note { text-align: center; padding: 1.5rem 2rem 1rem; border-top: 1px solid #f0eae4; }
+  .footer-note p { font-size: 12px; color: #999; font-family: 'Raleway', Arial, sans-serif; }
+  .footer-note a { color: #7a6a5a; text-decoration: none; }
+  @media (max-width: 1024px) { body { padding: 0 60px 0.5rem; } }
+  @media (max-width: 768px) {
+    body { padding: 0 30px 0.5rem; }
+    .hero-image { height: 220px; }
+    .hero-section, .benefits-section, .gate-section, .quiz-nudge, .faq-section { padding: 1.75rem 1.25rem; }
+  }
+  @media (max-width: 480px) {
+    body { padding: 0 12px 0.5rem; }
+    .page-header { padding: 1rem; }
+    .hero-image { height: 180px; }
+    .hero-section h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="page-header">
+    <a href="https://www.ldesigns.ca" target="_blank">
+      <img src="https://static.wixstatic.com/shapes/ae662e_3bc16dcc035647298284204d8bd55f35.svg" alt="L|Designs Interiors">
+    </a>
+  </div>
+
+  <img class="hero-image" src="https://static.wixstatic.com/media/ae662e_e35f4421704f4d2dbf312e545ab9be96~mv2.jpg" alt="L|Designs Interiors" onload="setTimeout(reportHeight,100);">
+
+  <div class="hero-section">
+    <div class="hero-eyebrow">Free Guide</div>
+    <h1>10 Things Your Decorator Knows<br>That You Don't</h1>
+    <p class="hero-sub">Insider design rules from 18 years of working with GTA homeowners — rug sizing, paint undertones, lighting placement, and more. Yours free, no strings attached.</p>
+  </div>
+
+  <div class="benefits-section">
+    <h2>What's Inside the Guide</h2>
+    <div class="benefits-list">
+      <div class="benefit-item">
+        <div class="benefit-num">1</div>
+        <div class="benefit-text">The <strong>rug sizing formula</strong> most homeowners get wrong — and how it instantly makes a room feel bigger.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">2</div>
+        <div class="benefit-text">How to choose a <strong>paint undertone</strong> that won't fight with your existing floors, trim, or furniture.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">3</div>
+        <div class="benefit-text">The <strong>lighting layering trick</strong> designers use so a room never feels flat or harsh.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">4</div>
+        <div class="benefit-text">Plus <strong>7 more</strong> practical, no-fluff tips you can use the moment you finish reading.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gate-section" id="gateSection">
+    <div class="gate-eyebrow-main">Get Your Free Copy</div>
+    <h2>Download the Guide</h2>
+    <p class="gate-intro-main">Enter your name and email below — we'll send the guide straight to your inbox.</p>
+
+    <form class="gate-form" id="gateForm" onsubmit="return false;">
+      <input type="text" id="gateName" placeholder="First name" autocomplete="given-name">
+      <input type="email" id="gateEmail" placeholder="Email address" autocomplete="email">
+      <button type="button" class="gate-submit" id="gateSubmitBtn" onclick="submitDownloadGate()">Send Me the Free Guide</button>
+      <div class="gate-error" id="gateError">Please enter a valid email address.</div>
+    </form>
+    <p class="gate-privacy" id="gatePrivacy">By submitting, you agree to receive your guide and occasional design tips &amp; offers from Ldesigns Interiors. See our <a href="https://www.ldesigns.ca/privacy" target="_blank">Privacy Policy</a>.</p>
+
+    <div class="gate-success" id="gateSuccess">
+      <div class="check">✓</div>
+      <h3>Check your inbox!</h3>
+      <p>Your guide is on its way to your email. If you don't see it within a few minutes, check your spam or promotions folder.</p>
+    </div>
+  </div>
+
+  <div class="quiz-nudge">
+    <div class="eyebrow">While You're Here</div>
+    <h3>What's Your Design Style?</h3>
+    <p>Take our free 20-question style quiz to discover your exact style profile, all 11 style archetypes, and any hybrid combinations that describe you.</p>
+    <a href="https://www.ldesigns.ca/style-quiz" target="_self">Take the Style Quiz — Free</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Quick Questions</h2>
+    <div class="faq-item">
+      <h4>Is this really free?</h4>
+      <p>Yes — completely free, no catch. We just ask for your name and email so we can send you the guide and keep you posted on future design tips and resources.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Will I get spammed?</h4>
+      <p>No. You'll get your guide, occasional design tips, and updates from Ldesigns Interiors — nothing more. You can unsubscribe anytime.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Who is this for?</h4>
+      <p>Homeowners in the GTA (or anywhere!) who want practical, designer-level guidance they can apply themselves — whether or not you ever hire a decorator.</p>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <p>Ldesigns Interiors &middot; Based in Toronto &amp; serving the GTA &middot; <a href="https://www.ldesigns.ca" target="_blank">ldesigns.ca</a></p>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// FLODESK — direct API submit via no-cors
+// Hosted on GitHub Pages so no Wix iframe sandbox restrictions
+// ============================================================
+var TIPS_GUIDE_PDF_URL = 'https://ae662ef5-00c1-4920-bb18-c1fac47ae38e.usrfiles.com/ugd/ae662e_45ec0990df484d1eaa998f56256bc439.pdf';
+
+function submitDownloadGate() {
+  var name = document.getElementById('gateName').value.trim();
+  var email = document.getElementById('gateEmail').value.trim();
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailPattern.test(email)) {
+    document.getElementById('gateError').style.display = 'block';
+    return;
+  }
+
+  document.getElementById('gateError').style.display = 'none';
+  var btn = document.getElementById('gateSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  fetch('https://api.flodesk.com/v1/subscribers', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email: email,
+      first_name: name,
+      segment_ids: ['6a45551ee6a0a745ba88724d']
+    })
+  })
+  .then(function(res) {
+    if (res.ok || res.status === 200 || res.status === 201) {
+      document.getElementById('gateForm').style.display = 'none';
+      document.getElementById('gatePrivacy').style.display = 'none';
+      document.getElementById('gateSuccess').style.display = 'block';
+      setTimeout(reportHeight, 200);
+    } else {
+      throw new Error('Submission failed');
+    }
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    btn.textContent = 'Send Me the Free Guide';
+    document.getElementById('gateError').textContent = 'Something went wrong — please try again.';
+    document.getElementById('gateError').style.display = 'block';
+    console.warn('Flodesk error:', err);
+  });
+}
+
+// ============================================================
+// IFRAME HEIGHT REPORTING
+// ============================================================
+function reportHeight() {
+  var height = Math.max(
+    document.documentElement.offsetHeight,
+    document.documentElement.scrollHeight,
+    document.body.offsetHeight,
+    document.body.scrollHeight
+  ) + 20;
+  window.parent.postMessage({ type: 'setHeight', height: height }, '*');
+}
+if (window.ResizeObserver) {
+  var ro = new ResizeObserver(function() { reportHeight(); });
+  ro.observe(document.body);
+  ro.observe(document.querySelector('.page-wrap'));
+}
+window.addEventListener('load', function() {
+  reportHeight();
+  setTimeout(reportHeight, 500);
+  setTimeout(reportHeight, 1500);
+});
+var resizeTimer;
+window.addEventListener('resize', function() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(reportHeight, 150);
+});
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(function() {
+    reportHeight();
+    setTimeout(reportHeight, 200);
+  });
+}
+</script>
+</body>
+</html>
