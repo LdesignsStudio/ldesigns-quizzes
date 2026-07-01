@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interior Design Style Quiz — Full Edition | L|Designs Interiors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!-- No external scripts needed - Flodesk submitted via fetch API -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: auto; overflow: visible; }
+  body { font-family: 'Raleway', Arial, sans-serif; background: #f5f1ed; display: block; padding: 0 150px 0.5rem; }
+  .quiz-wrap { max-width: 100%; width: 100%; min-height: 2800px; }
+  /* Header */
+  .quiz-header { background: rgba(228, 220, 212, 0.35); padding: 1rem 2rem; text-align: center; }
+  .quiz-header h1 { font-size: clamp(18px, 4vw, 32px); font-weight: 400; color: #3c3020; margin-top: 0.25rem; letter-spacing: 0.5px; font-family: 'Playfair Display', Georgia, serif; }
+  .quiz-header p { color: #7a6a5a; font-size: clamp(14px, 3vw, 22px); margin-top: 0.3rem; font-style: italic; font-family: 'Playfair Display', Georgia, serif; }
+  .quiz-header .badge { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.25rem; }
+  /* Progress */
+  .progress-bar { background: #c8bdb4; height: 4px; }
+  .progress-fill { background: #5a4a3a; height: 4px; transition: width 0.4s ease; }
+  /* Hero image */
+  .quiz-hero-image { width: 100%; height: 180px; object-fit: cover; object-position: center 40%; display: block; }
+  /* Section header */
+  .section-header { background: #7a6a5a; padding: 1.5rem 2rem; text-align: center; }
+  .section-header h2 { font-size: 18px; letter-spacing: 3px; text-transform: uppercase; color: #fff; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; }
+  .section-header p { font-size: 16px; color: rgba(255,255,255,0.85); margin-top: 0.5rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; font-style: italic; line-height: 1.5; }
+  /* Question */
+  .question-screen { padding: 2rem; background: #fff; border: 0.5px solid #e0d8d0; }
+  .q-label { font-size: 11px; letter-spacing: 3px; color: #7a6a5a; font-weight: 700; text-transform: uppercase; margin-bottom: 0.75rem; font-family: 'Raleway', Arial, sans-serif; }
+  .q-text { font-size: clamp(18px, 4vw, 22px); font-weight: 400; color: #2c2c2c; line-height: 1.4; margin-bottom: 1.5rem; font-family: 'Playfair Display', Georgia, serif; }
+  /* Options - 2 column grid on desktop */
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.5rem; }
+  .option { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 0.5px solid #e0d8d0; border-radius: 6px; cursor: pointer; transition: all 0.15s; background: #fff; }
+  .option:hover { border-color: #7a6a5a; background: #faf8f6; }
+  .option.selected { border-color: #7a6a5a; background: #f5f1ed; }
+  .option-letter { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid #c0b4a8; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #7a6a5a; flex-shrink: 0; transition: all 0.15s; font-family: 'Raleway', Arial, sans-serif; }
+  .option.selected .option-letter { background: #7a6a5a; border-color: #7a6a5a; color: #fff; }
+  .option-text { font-size: 13px; color: #3c3c3c; line-height: 1.5; padding-top: 3px; font-family: 'Raleway', Arial, sans-serif; }
+  /* Nav */
+  .nav-row { display: flex; justify-content: center; align-items: center; gap: 100px; margin-top: 1.5rem; }
+  .btn { padding: 11px 26px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; border: 1px solid; transition: all 0.15s; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+  .btn-primary { background: rgba(228, 220, 212, 0.35); border-color: #7a6a5a; color: #7a6a5a; }
+  .btn-primary:hover { background: #7a6a5a; color: #fff; }
+  .btn-primary:disabled { background: #c8bdb4; border-color: #c8bdb4; color: #fff; opacity: 1; cursor: not-allowed; }
+  .btn-ghost { background: transparent; border-color: #c0b4a8; color: #7a6a5a; }
+  .btn-ghost:hover { border-color: #7a6a5a; }
+  /* Results */
+  .result-screen { display: none; background: #fff; border: 0.5px solid #e0d8d0; }
+  .result-hero { background: rgba(228, 220, 212, 0.35); padding: 2.5rem 2rem; text-align: center; }
+  .result-label { font-size: 11px; letter-spacing: 3px; color: #8a7a6a; text-transform: uppercase; font-family: 'Raleway', Arial, sans-serif; }
+  .result-primary { font-size: clamp(28px, 8vw, 84px) !important; font-weight: 500; color: #3c3020; margin: 0.5rem 0 0.25rem; letter-spacing: 2px; font-family: 'Playfair Display', Georgia, serif; text-transform: uppercase !important; line-height: 1.1; word-break: break-word; }
+  .result-secondary-label { font-size: 12px; letter-spacing: 2px; color: #8a7a6a; text-transform: uppercase; font-family: 'Raleway', Arial, sans-serif; margin-top: 0.75rem; }
+  .result-secondary { font-size: clamp(18px, 4vw, 36px); font-weight: 400; color: #7a6a5a; font-family: 'Playfair Display', Georgia, serif; text-transform: uppercase; letter-spacing: 2px; }
+  .result-body { padding: 2rem; text-align: center; }
+  /* Hybrid badge */
+  .hybrid-badge { display: none; background: #E9D9DE; border-radius: 8px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; }
+  .hybrid-badge.visible { display: block; }
+  .hybrid-badge .hybrid-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.4rem; }
+  .hybrid-badge .hybrid-combo { font-size: 20px; font-weight: 500; color: #3c2e22; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.5rem; }
+  .hybrid-badge .hybrid-desc { font-size: 14px; color: #5a4a3a; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; line-height: 1.7; font-style: italic; }
+  /* Primary result description */
+  .result-tagline { font-size: clamp(16px, 2.5vw, 22px); font-style: italic; color: #5a4a3a; line-height: 1.6; margin-bottom: 1.25rem; text-align: center; font-family: 'Playfair Display', Georgia, serif; }
+  .result-desc { font-size: 15px; color: #555; line-height: 1.8; margin-bottom: 1.75rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; text-align: center; max-width: 620px; margin-left: auto; margin-right: auto; }
+  /* Score bars */
+  .score-section { margin-bottom: 1.75rem; }
+  .score-section h3 { font-size: 11px; letter-spacing: 3px; color: #7a6a5a; text-transform: uppercase; margin-bottom: 1rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; text-align: center; }
+  .score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; text-align: left; }
+  .score-name { font-size: 12px; color: #555; width: 130px; flex-shrink: 0; font-family: 'Raleway', Arial, sans-serif; }
+  .score-track { flex: 1; background: #ede8e3; height: 6px; border-radius: 3px; overflow: hidden; }
+  .score-fill { height: 6px; border-radius: 3px; background: #7a6a5a; width: 0; transition: width 0.9s ease; }
+  .score-fill.secondary { background: #E9D9DE; border: 1px solid #c0a8b0; }
+  .score-num { font-size: 11px; color: #999; width: 20px; text-align: right; font-family: 'Raleway', Arial, sans-serif; }
+  /* Upsell - two column */
+  .upsell { border: 2px solid #7a6a5a; border-radius: 8px; margin-bottom: 1.25rem; background: #faf8f6; overflow: hidden; }
+  .upsell-inner { display: flex; align-items: stretch; }
+  .upsell-image { width: 40%; flex-shrink: 0; }
+  .upsell-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .upsell-content { flex: 1; padding: 2rem; text-align: left; }
+  .upsell-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
+  .upsell h3 { font-size: clamp(18px, 3vw, 24px); font-weight: 500; color: #2c2c2c; margin-bottom: 0.75rem; font-family: 'Playfair Display', Georgia, serif; }
+  .upsell-sub { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 1.25rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
+  .upsell-features { margin-bottom: 1.5rem; }
+  .upsell-features div { font-size: 14px; color: #5a4a3a; font-family: 'Raleway', Arial, sans-serif; padding: 4px 0; font-weight: 500; }
+  .upsell a { display: inline-block; padding: 11px 28px; background: #3c2e22; color: #fff; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 700; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; }
+  .upsell a:hover { background: #5a4a3a; }
+  /* Flodesk embed wrapper */
+  .flodesk-wrap { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #e6ded6; }
+  .flodesk-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
+  .flodesk-intro { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 1rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
+  /* Consultation CTA */
+  .consult-box { background: #7a6a5a; border-radius: 8px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+  .consult-box h3 { font-size: 22px; font-weight: 400; color: #fff; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.5rem; }
+  .consult-box p { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 1.25rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
+  .consult-box a { display: inline-block; padding: 12px 32px; background: #fff; color: #7a6a5a; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 700; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; }
+  .consult-box a:hover { background: rgba(255,255,255,0.9); }
+  /* Social */
+  .social-section { margin-bottom: 1.5rem; text-align: center; }
+  .social-section h3 { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 1rem; }
+  .btn-fb { display: inline-flex; align-items: center; gap: 8px; padding: 11px 24px; background: #1877F2; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; text-decoration: none; }
+  .btn-fb:hover { background: #0e65d4; }
+  .follow-nudge { font-size: 13px; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-style: italic; margin-top: 0.75rem; }
+  .follow-nudge a { color: #5a4a3a; font-weight: 600; text-decoration: none; }
+  /* Footer */
+  .footer-note { text-align: center; padding: 1rem 2rem 1rem; border-top: 1px solid #f0eae4; }
+  .footer-note p { font-size: 12px; color: #999; font-family: 'Raleway', Arial, sans-serif; }
+  .footer-note a { color: #7a6a5a; text-decoration: none; }
+  .retake { text-align: center; margin-bottom: 1rem; }
+  .retake button { background: none; border: none; color: #7a6a5a; font-size: 13px; cursor: pointer; text-decoration: underline; font-family: 'Raleway', Arial, sans-serif; }
+  /* Responsive */
+  @media (max-width: 1024px) { body { padding: 0 60px 0.5rem; } }
+  @media (max-width: 768px) {
+    body { padding: 0 30px 0.5rem; }
+    .options-grid { grid-template-columns: 1fr; }
+    .upsell-inner { flex-direction: column; }
+    .upsell-image { width: 100%; height: 180px; }
+    .upsell-content { padding: 1.25rem; text-align: center; }
+    .result-hero { padding: 1.5rem 1rem; }
+  }
+  @media (max-width: 480px) {
+    body { padding: 0 12px 0.5rem; }
+    .quiz-header { padding: 0.5rem 1rem; }
+    .quiz-header h1 { font-size: 16px; }
+    .quiz-header p { font-size: 13px; }
+    .quiz-hero-image { display: none; }
+    .question-screen { padding: 1rem; }
+    .q-text { font-size: 16px; }
+    .option-text { font-size: 12px; }
+    .nav-row { gap: 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="quiz-wrap">
+  <div class="quiz-header">
+    <div class="badge">20 Questions · 11 Styles · Hybrid Combinations</div>
+    <h1>Interior Design Style Quiz — Full Edition</h1>
+    <p>You already know you have good taste. This gives you the language.</p>
+  </div>
+  <img class="quiz-hero-image" src="https://static.wixstatic.com/media/ae662e_4179535f9c354199a2450533b7084024~mv2_d_3000_2000_s_2.jpg" alt="L|Designs Interiors" onload="setTimeout(reportHeight,100);">
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+  <div id="sectionHeader" style="display:none;" class="section-header">
+    <h2 id="sectionTitle"></h2>
+    <p id="sectionSub"></p>
+  </div>
+  <div class="question-screen" id="qscreen">
+    <div class="q-label" id="qlabel">Question 1 of 20</div>
+    <div class="q-text" id="qtext"></div>
+    <div class="options-grid" id="options"></div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" id="prevBtn" onclick="prevQ()" style="visibility:hidden">← Back</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next →</button>
+    </div>
+  </div>
+  <div class="result-screen" id="rscreen">
+    <div class="result-hero">
+      <div class="result-label">Your primary design style is</div>
+      <div class="result-primary" id="rPrimary">—</div>
+      <div class="result-secondary-label" id="rSecondaryLabel" style="display:none;">Your secondary style</div>
+      <div class="result-secondary" id="rSecondary"></div>
+    </div>
+    <div class="result-body">
+      <div class="hybrid-badge" id="hybridBadge">
+        <div class="hybrid-eyebrow">You are a hybrid!</div>
+        <div class="hybrid-combo" id="hybridCombo"></div>
+        <div class="hybrid-desc" id="hybridDesc"></div>
+      </div>
+      <div class="result-tagline" id="rTagline"></div>
+      <div class="result-desc" id="rDesc"></div>
+      <div class="score-section">
+        <h3>Your complete style breakdown</h3>
+        <div class="score-bars" id="scoreBars"></div>
+      </div>
+      <div class="consult-box">
+        <h3>Ready to bring your style to life?</h3>
+        <p>A design consultation with L|Designs Interiors takes everything you have discovered in this quiz and translates it into a real plan for your real home — your layout, your light, your budget, and your life.</p>
+        <a href="https://www.ldesigns.ca/consultations/signature-consultation" target="_blank">Book a Design Consultation</a>
+      </div>
+
+      <!-- FREE GUIDE UPSELL — Flodesk replaces old EmailJS gate -->
+      <div class="upsell" id="tipsUpsell" style="display:none;">
+        <div class="upsell-inner">
+          <div class="upsell-image">
+            <img src="https://static.wixstatic.com/media/ae662e_e35f4421704f4d2dbf312e545ab9be96~mv2.jpg" alt="L|Designs Interiors" onload="setTimeout(reportHeight,100);">
+          </div>
+          <div class="upsell-content">
+            <div class="upsell-eyebrow">Free guide</div>
+            <h3>10 Things Your Decorator Knows That You Don't</h3>
+            <p class="upsell-sub">Insider design rules from 18 years of working with GTA homeowners — rug sizing, paint undertones, lighting placement, and more. Enter your email and it's yours, free.</p>
+            <!-- Flodesk inline form -->
+            <div class="flodesk-wrap">
+              <div class="flodesk-eyebrow">Your free guide is one step away</div>
+              <p class="flodesk-intro">Enter your email below and we'll send it straight to your inbox.</p>
+              <div id="flodesk-form">
+                <input type="text" id="fd-first-name" placeholder="First name" autocomplete="given-name" style="width:100%;padding:11px 14px;margin-bottom:0.75rem;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:'Raleway',Arial,sans-serif;box-sizing:border-box;">
+                <input type="email" id="fd-email" placeholder="Email address" autocomplete="email" style="width:100%;padding:11px 14px;margin-bottom:0.75rem;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:'Raleway',Arial,sans-serif;box-sizing:border-box;">
+                <button id="fd-submit" onclick="submitToFlodesk()" style="display:inline-block;padding:11px 28px;background:#3c2e22;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Raleway',Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;transition:background 0.15s;">Get the Free Guide</button>
+                <div id="fd-error" style="color:#b3261e;font-size:12px;margin-top:0.5rem;display:none;font-family:'Raleway',Arial,sans-serif;"></div>
+                <div id="fd-success" style="color:#3c7a3c;font-size:14px;margin-top:0.75rem;display:none;font-family:'Raleway',Arial,sans-serif;font-weight:500;">You're in! Check your inbox for your free guide.</div>
+              </div>
+              <script>
+                function submitToFlodesk() {
+                  var name = document.getElementById('fd-first-name').value.trim();
+                  var email = document.getElementById('fd-email').value.trim();
+                  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                  var errorEl = document.getElementById('fd-error');
+                  var successEl = document.getElementById('fd-success');
+                  var btn = document.getElementById('fd-submit');
+
+                  errorEl.style.display = 'none';
+
+                  if (!emailPattern.test(email)) {
+                    errorEl.textContent = 'Please enter a valid email address.';
+                    errorEl.style.display = 'block';
+                    return;
+                  }
+
+                  btn.disabled = true;
+                  btn.textContent = 'Sending...';
+
+                  fetch('https://api.flodesk.com/v1/subscribers', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'User-Agent': 'LDesigns Quiz (ldesigns.ca)'
+                    },
+                    body: JSON.stringify({
+                      email: email,
+                      first_name: name,
+                      segment_ids: ['6a45551ee6a0a745ba88724d']
+                    })
+                  })
+                  .then(function(res) {
+                    if (res.ok || res.status === 200 || res.status === 201) {
+                      document.getElementById('flodesk-form').style.display = 'none';
+                      successEl.style.display = 'block';
+                      setTimeout(reportHeight, 200);
+                    } else {
+                      return res.json().then(function(data) {
+                        throw new Error(data.message || 'Submission failed');
+                      });
+                    }
+                  })
+                  .catch(function(err) {
+                    btn.disabled = false;
+                    btn.textContent = 'Get the Free Guide';
+                    errorEl.textContent = 'Something went wrong — please try again.';
+                    errorEl.style.display = 'block';
+                    console.warn('Flodesk error:', err);
+                  });
+                }
+              </script>
+              <p style="font-size:11px;color:#999;margin-top:0.75rem;font-family:'Raleway',Arial,sans-serif;">By submitting, you agree to receive your guide and occasional design tips from Ldesigns Interiors. See our <a href="https://www.ldesigns.ca/privacy" target="_blank" style="color:#7a6a5a;">Privacy Policy</a>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END FREE GUIDE UPSELL -->
+
+      <div class="social-section">
+        <h3>Share your result</h3>
+        <a id="fbShareBtn" href="#" target="_blank" class="btn-fb">Share on Facebook</a>
+        <div class="follow-nudge">Follow us <a href="https://www.instagram.com/ldesignsinteriors" target="_blank">@ldesignsinteriors</a> for daily design inspiration.</div>
+      </div>
+      <div class="retake"><button onclick="retake()">Retake the quiz</button></div>
+    </div>
+    <div class="footer-note">
+      <p>Based in Toronto & serving the GTA &nbsp;|&nbsp; <a href="https://www.ldesigns.ca" target="_blank">ldesigns.ca</a> &nbsp;|&nbsp; @ldesignsinteriors</p>
+    </div>
+  </div>
+</div>
+<script>
+const questions = [
+  {
+    section: "SECTION I — LIFESTYLE + MOOD",
+    sectionSub: "These questions explore how you want your home to feel — the atmosphere, the energy, and the experience of living in it every day.",
+    text: "How do you want your home to feel?",
+    options: [
+      { letter: "A", text: "Elegant & formal — a space that feels intentionally curated and quietly impressive", style: "Traditional" },
+      { letter: "B", text: "Calm and natural — warm, uncluttered, and deeply connected to the outdoors", style: "Scandinavian" },
+      { letter: "C", text: "Sleek & functional — every element chosen with precision and purpose", style: "Modern" },
+      { letter: "D", text: "Simple & uncluttered — breathing room in every corner, nothing unnecessary", style: "Minimalist" },
+      { letter: "E", text: "Cozy & welcoming — the kind of warmth that makes everyone feel at home instantly", style: "Farmhouse" },
+      { letter: "F", text: "Light & breezy — open, airy, and carrying the easy feeling of a seaside escape", style: "Coastal" },
+      { letter: "G", text: "Creative & layered — personal, textured, and full of things that tell your story", style: "Boho/Eclectic" },
+      { letter: "H", text: "Edgy & urban — raw, honest, and coolly confident", style: "Industrial" },
+      { letter: "I", text: "Retro-cool & stylish — design-forward with warmth and a nod to the past", style: "Mid-Century" },
+      { letter: "J", text: "Balanced & timeless — classic comfort meeting clean modern sensibility", style: "Transitional" },
+      { letter: "K", text: "Fresh & on-trend — current, polished, and alive with personality", style: "Contemporary" },
+    ]
+  },
+  {
+    section: null, sectionSub: null,
+    text: "What's your dream weekend getaway?",
+    options: [
+      { letter: "A", text: "Historic inn — antique furniture, rich drapery, and rooms full of charm and character", style: "Traditional" },
+      { letter: "B", text: "Nordic cabin — pale wood, cozy blankets, candlelight, and sweeping views of nature", style: "Scandinavian" },
+      { letter: "C", text: "Sleek city hotel — clean architecture, statement lighting, and nothing out of place", style: "Modern" },
+      { letter: "D", text: "Quiet mountain spa retreat — calm, uncluttered, and designed entirely around stillness", style: "Minimalist" },
+      { letter: "E", text: "A rustic farmhouse B&B — warm wood, vintage touches, and a kitchen that smells like something good", style: "Farmhouse" },
+      { letter: "F", text: "A seaside cottage — whitewashed walls, sandy neutrals, and the sound of waves", style: "Coastal" },
+      { letter: "G", text: "A colourful boutique retreat — layered rugs, global art, and a different story in every corner", style: "Boho/Eclectic" },
+      { letter: "H", text: "An artist's loft in a converted warehouse — raw ceilings, brick walls, and industrial soul", style: "Industrial" },
+      { letter: "I", text: "A Palm Springs retro motel — iconic furniture, warm tones, and mid-century architecture", style: "Mid-Century" },
+      { letter: "J", text: "A classic countryside resort — elegant but relaxed, timeless but never stuffy", style: "Transitional" },
+      { letter: "K", text: "A trendy urban hotel — bold finishes, statement design, and a rooftop bar", style: "Contemporary" },
+    ]
+  },
+  { section: null, sectionSub: null, text: "Which best describes your personality?", options: [ { letter: "A", text: "Refined & timeless — you appreciate quality, craftsmanship, and things that last", style: "Traditional" }, { letter: "B", text: "Relaxed and cozy — you value comfort, simplicity, and being close to nature", style: "Scandinavian" }, { letter: "C", text: "Confident and stylish — you know what you like and you commit to it fully", style: "Modern" }, { letter: "D", text: "Efficient and intentional — you find freedom in simplicity and calm in order", style: "Minimalist" }, { letter: "E", text: "Down-to-earth and warm — you make people feel welcome the moment they arrive", style: "Farmhouse" }, { letter: "F", text: "Easygoing and optimistic — life is better lived lightly and with a view of the water", style: "Coastal" }, { letter: "G", text: "Adventurous and creative — you collect experiences and your home reflects every one of them", style: "Boho/Eclectic" }, { letter: "H", text: "Bold and independent — you make spaces that feel authentic, not curated for approval", style: "Industrial" }, { letter: "I", text: "Playful and design-conscious — you love when something is both beautiful and a little unexpected", style: "Mid-Century" }, { letter: "J", text: "Balanced and adaptable — you move between classic and current with ease and confidence", style: "Transitional" }, { letter: "K", text: "Trend-conscious and expressive — your home feels current because you pay attention", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "When friends come over, your space should feel:", options: [ { letter: "A", text: "Classic and put-together — like a home that has been thoughtfully assembled over a lifetime", style: "Traditional" }, { letter: "B", text: "Light and natural — calm, uncluttered, and genuinely welcoming without trying too hard", style: "Scandinavian" }, { letter: "C", text: "Sleek and impressive — considered, precise, and quietly confident", style: "Modern" }, { letter: "D", text: "Calm and minimal — a space that feels like a breath of fresh air the moment you walk in", style: "Minimalist" }, { letter: "E", text: "Warm and homey — the kind of place people never want to leave", style: "Farmhouse" }, { letter: "F", text: "Breezy and casual — relaxed, sunny, and effortlessly inviting", style: "Coastal" }, { letter: "G", text: "Fun and vibrant — full of colour, texture, and things to look at and ask about", style: "Boho/Eclectic" }, { letter: "H", text: "Cool and urban — raw, real, and unapologetically different", style: "Industrial" }, { letter: "I", text: "Retro yet chic — stylish in a way that feels both nostalgic and completely now", style: "Mid-Century" }, { letter: "J", text: "Welcoming and versatile — elegant enough for a dinner party, relaxed enough for a Sunday morning", style: "Transitional" }, { letter: "K", text: "Stylish and polished — current, confident, and put together with intention", style: "Contemporary" } ] },
+  { section: "SECTION II — FURNITURE + DECOR", sectionSub: "These questions explore the specific pieces, materials, and details you are naturally drawn to — the building blocks of your design personality.", text: "Which sofa would you choose?", options: [ { letter: "A", text: "Tufted velvet with rolled arms and carved wood feet — classic and quietly grand", style: "Traditional" }, { letter: "B", text: "Pale linen with natural wood legs — simple, warm, and endlessly comfortable", style: "Scandinavian" }, { letter: "C", text: "Low structured sectional in a solid neutral — clean lines, no fuss", style: "Modern" }, { letter: "D", text: "Streamlined armless sofa in a muted tone — edited, precise, and intentional", style: "Minimalist" }, { letter: "E", text: "Cozy slipcovered sofa in washed cotton — relaxed, lived-in, and genuinely inviting", style: "Farmhouse" }, { letter: "F", text: "Breezy rattan or wicker frame with light cushions — casual and coastal", style: "Coastal" }, { letter: "G", text: "Mix and match cushions, layered throws, patterned fabric — comfortable beautiful chaos", style: "Boho/Eclectic" }, { letter: "H", text: "Distressed leather with a metal base — raw, honest, and built to last", style: "Industrial" }, { letter: "I", text: "Teak sofa with tapered legs and warm upholstery — iconic, warm, and quietly retro", style: "Mid-Century" }, { letter: "J", text: "Classic tailored sofa with clean updated lines — timeless without being formal", style: "Transitional" }, { letter: "K", text: "Sleek modular sectional in a fashion-forward colour or finish — current and confident", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "Choose a coffee table:", options: [ { letter: "A", text: "Ornate wood with carved legs and a glass top — elegant and traditional", style: "Traditional" }, { letter: "B", text: "Pale oak with a simple organic form — natural and understated", style: "Scandinavian" }, { letter: "C", text: "Sleek glass or lacquered surface with a minimal base — clean and precise", style: "Modern" }, { letter: "D", text: "Ultra-slim black steel frame — invisible almost, and that is the point", style: "Minimalist" }, { letter: "E", text: "Distressed wood plank table with visible grain and character", style: "Farmhouse" }, { letter: "F", text: "Whitewashed driftwood or bleached rattan — breezy and relaxed", style: "Coastal" }, { letter: "G", text: "A colourful vintage trunk or stacked books and trays — collected and personal", style: "Boho/Eclectic" }, { letter: "H", text: "Concrete top with welded steel legs — raw, heavy, and unapologetic", style: "Industrial" }, { letter: "I", text: "Retro walnut oval with tapered hairpin legs — warm and quietly iconic", style: "Mid-Century" }, { letter: "J", text: "Classic pedestal table in a warm neutral finish — reliable and elegant", style: "Transitional" }, { letter: "K", text: "Polished marble with slim brass or black legs — statement-making and current", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "What kind of bed appeals most to you?", options: [ { letter: "A", text: "Upholstered tufted headboard in velvet or linen — formal and quietly luxurious", style: "Traditional" }, { letter: "B", text: "Simple pale wood frame with clean lines — calm, natural, and easy to wake up in", style: "Scandinavian" }, { letter: "C", text: "Low upholstered platform in a structured neutral — grounded and precise", style: "Modern" }, { letter: "D", text: "Slim-line frame that almost disappears — the bed is for sleeping, not showing off", style: "Minimalist" }, { letter: "E", text: "Rustic wood farmhouse bed with a chunky headboard — cozy and full of character", style: "Farmhouse" }, { letter: "F", text: "Woven rattan or cane with light bedding — breezy and relaxed", style: "Coastal" }, { letter: "G", text: "Layered textiles, mixed cushions, and a canopy or curtains — maximalist and personal", style: "Boho/Eclectic" }, { letter: "H", text: "Distressed metal frame with industrial detailing — raw and urban", style: "Industrial" }, { letter: "I", text: "Retro walnut bed with a low profile and warm upholstery — iconic and inviting", style: "Mid-Century" }, { letter: "J", text: "Soft upholstered panel bed in a warm neutral — classic comfort with a modern edge", style: "Transitional" }, { letter: "K", text: "Sleek low-profile bed in a bold or fashion-forward finish — current and considered", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "Your lighting choice is most likely:", options: [ { letter: "A", text: "Crystal or glass chandelier — elegant, classic, and unapologetically grand", style: "Traditional" }, { letter: "B", text: "Simple wood or woven pendant — warm, natural, and quietly beautiful", style: "Scandinavian" }, { letter: "C", text: "Geometric metal fixture in black or brass — bold, architectural, and precise", style: "Modern" }, { letter: "D", text: "Slim bar or completely hidden LED — light without the fixture, intentional invisibility", style: "Minimalist" }, { letter: "E", text: "Lantern-style pendant or vintage filament bulb — rustic charm and warm glow", style: "Farmhouse" }, { letter: "F", text: "Woven rattan or seagrass chandelier — casual, textural, and breezy", style: "Coastal" }, { letter: "G", text: "Moroccan, beaded, or globally inspired fixture — layered, personal, and unexpected", style: "Boho/Eclectic" }, { letter: "H", text: "Industrial cage pendant or oversized bare bulb — raw and unapologetically functional", style: "Industrial" }, { letter: "I", text: "Sputnik chandelier or retro arc floor lamp — iconic, warm, and design-forward", style: "Mid-Century" }, { letter: "J", text: "Classic drum shade or updated traditional pendant — timeless and always appropriate", style: "Transitional" }, { letter: "K", text: "Oversized statement fixture in an unexpected finish — bold, current, and confident", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "Which rug are you drawn to?", options: [ { letter: "A", text: "Persian or Oriental with rich jewel tones and intricate pattern", style: "Traditional" }, { letter: "B", text: "Pale wool flatweave in a soft natural tone — calm and understated", style: "Scandinavian" }, { letter: "C", text: "Sleek monochrome or abstract pattern in black, white, or grey", style: "Modern" }, { letter: "D", text: "Solid neutral with no pattern — texture only, nothing to distract", style: "Minimalist" }, { letter: "E", text: "Distressed vintage-look in warm earthy tones — character and history", style: "Farmhouse" }, { letter: "F", text: "Natural jute or sisal — relaxed, organic, and coastal", style: "Coastal" }, { letter: "G", text: "Layered kilims or colourful global textiles — rich, personal, and well-travelled", style: "Boho/Eclectic" }, { letter: "H", text: "Graphic black and white with high contrast and bold geometry", style: "Industrial" }, { letter: "I", text: "Bold retro geometric in warm mid-century tones — walnut, rust, and gold", style: "Mid-Century" }, { letter: "J", text: "Neutral patterned wool — classic enough for any room, refined without being fussy", style: "Transitional" }, { letter: "K", text: "Sleek abstract or large-scale pattern in a current colourway", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "What is your preferred wall treatment?", options: [ { letter: "A", text: "Wainscoting, picture rail, or crown moulding — architectural detail that adds real depth", style: "Traditional" }, { letter: "B", text: "Painted panelling in a soft natural tone — simple structure with Scandinavian calm", style: "Scandinavian" }, { letter: "C", text: "A bold colour accent wall — one wall that does all the work", style: "Modern" }, { letter: "D", text: "Crisp white drywall — perfectly smooth, perfectly quiet, perfectly intentional", style: "Minimalist" }, { letter: "E", text: "Shiplap or board and batten — rustic texture with farmhouse warmth", style: "Farmhouse" }, { letter: "F", text: "Soft washed tones in sandy or coastal hues — calm, sun-faded, and breezy", style: "Coastal" }, { letter: "G", text: "A gallery wall of eclectic art, prints, and personal objects — layered and alive", style: "Boho/Eclectic" }, { letter: "H", text: "Exposed brick or raw concrete — honest materials left exactly as they are", style: "Industrial" }, { letter: "I", text: "Retro wood panelling or curved plaster — warm, tactile, and quietly nostalgic", style: "Mid-Century" }, { letter: "J", text: "Subtle neutral wallpaper with texture or a classic pattern — understated and refined", style: "Transitional" }, { letter: "K", text: "A large-scale statement wallpaper or bold architectural feature — current and confident", style: "Contemporary" } ] },
+  { section: "SECTION III — COLOURS + MATERIALS", sectionSub: "These questions explore your instinctive responses to colour, texture, and finish — often the most revealing indicators of your true design personality.", text: "What's your favourite colour palette?", options: [ { letter: "A", text: "Rich jewel tones — deep navy, forest green, burgundy — with cream and gold accents", style: "Traditional" }, { letter: "B", text: "Soft and natural — white, pale wood, sage green, and warm cream", style: "Scandinavian" }, { letter: "C", text: "Bold and graphic — black, white, and grey with one strong intentional colour pop", style: "Modern" }, { letter: "D", text: "Soft whites and muted greys — a palette so quiet it almost disappears", style: "Minimalist" }, { letter: "E", text: "Warm and rustic — creamy whites, honey wood, and earthy warm neutrals", style: "Farmhouse" }, { letter: "F", text: "Sandy neutrals with soft blues and whites — calm, coastal, and sun-bleached", style: "Coastal" }, { letter: "G", text: "Earthy and vibrant — terracotta, mustard, olive green, and rust", style: "Boho/Eclectic" }, { letter: "H", text: "Greys, charcoals, and deep industrial tones with raw material accents", style: "Industrial" }, { letter: "I", text: "Warm mid-tones with retro pops — burnt orange, walnut, teal, and gold", style: "Mid-Century" }, { letter: "J", text: "Muted, balanced neutrals — warm greige, taupe, and soft white with subtle accents", style: "Transitional" }, { letter: "K", text: "Bold and fashion-forward — blush, sage, black, or whatever feels current and alive", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "What is your wood preference?", options: [ { letter: "A", text: "Dark walnut or mahogany — rich, formal, and deeply traditional", style: "Traditional" }, { letter: "B", text: "Pale oak or birch — light, natural, and quietly Scandinavian", style: "Scandinavian" }, { letter: "C", text: "Glossy veneer or lacquered finish — sleek, precise, and unapologetically modern", style: "Modern" }, { letter: "D", text: "Ultra-smooth light wood with no visible grain — clean and almost architectural", style: "Minimalist" }, { letter: "E", text: "Distressed or reclaimed pine — worn, warm, and full of history", style: "Farmhouse" }, { letter: "F", text: "Whitewashed or bleached driftwood — sun-faded and coastal", style: "Coastal" }, { letter: "G", text: "Reclaimed mixed woods with visible character — collected, layered, and personal", style: "Boho/Eclectic" }, { letter: "H", text: "Black-stained or charred wood — dark, raw, and industrial", style: "Industrial" }, { letter: "I", text: "Teak with warm golden tones — iconic, warm, and mid-century perfect", style: "Mid-Century" }, { letter: "J", text: "Medium-toned maple or cherry — classic, warm, and universally livable", style: "Transitional" }, { letter: "K", text: "Engineered sleek finishes in warm or fashion-forward tones — current and considered", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "What is your accent material of choice?", options: [ { letter: "A", text: "Polished brass or gold — warm, classic, and quietly luxurious", style: "Traditional" }, { letter: "B", text: "Natural ceramics and hand-thrown pottery — organic, imperfect, and beautiful", style: "Scandinavian" }, { letter: "C", text: "Chrome or polished glass — sharp, reflective, and precise", style: "Modern" }, { letter: "D", text: "Matte black hardware — understated, intentional, and invisibly strong", style: "Minimalist" }, { letter: "E", text: "Galvanized steel or aged iron — rustic and honest", style: "Farmhouse" }, { letter: "F", text: "Woven rattan, seagrass, or shell — natural, tactile, and coastal", style: "Coastal" }, { letter: "G", text: "Colourful glazed tile or hand-painted ceramic accents — vibrant and personal", style: "Boho/Eclectic" }, { letter: "H", text: "Black iron or raw steel — industrial, heavy, and unapologetic", style: "Industrial" }, { letter: "I", text: "Brushed brass paired with teak or walnut — warm, retro, and quietly iconic", style: "Mid-Century" }, { letter: "J", text: "Polished nickel or soft gold — refined, timeless, and always appropriate", style: "Transitional" }, { letter: "K", text: "Lacquered or high-gloss finishes in unexpected colours — bold and current", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "What type of fabric do you gravitate toward?", options: [ { letter: "A", text: "Velvet, silk, or brocade — rich, tactile, and unapologetically luxurious", style: "Traditional" }, { letter: "B", text: "Linen or undyed wool — natural, breathable, and quietly beautiful", style: "Scandinavian" }, { letter: "C", text: "Sleek cotton or performance blend — clean, smooth, and easy to live with", style: "Modern" }, { letter: "D", text: "Crisp canvas or fine cotton — simple, precise, and without unnecessary texture", style: "Minimalist" }, { letter: "E", text: "Ticking stripe or washed cotton — relaxed, vintage, and genuinely comfortable", style: "Farmhouse" }, { letter: "F", text: "Breezy linen or seagrass weave — light, casual, and coastal", style: "Coastal" }, { letter: "G", text: "Global printed textiles, embroidered fabric, or layered mixed patterns — rich and personal", style: "Boho/Eclectic" }, { letter: "H", text: "Distressed leather or canvas — raw, durable, and honest", style: "Industrial" }, { letter: "I", text: "Tweed, bouclé, or retro graphic weave — warm, tactile, and design-forward", style: "Mid-Century" }, { letter: "J", text: "Subtle damask, herringbone, or classic stripe — refined pattern with quiet confidence", style: "Transitional" }, { letter: "K", text: "Smooth performance blends in fashion-forward colours or prints — current and considered", style: "Contemporary" } ] },
+  { section: "SECTION IV — LIFESTYLE + DAILY USE", sectionSub: "These questions explore how you actually live — the rooms you use most, the details you notice, and the choices that reveal your style when no one is watching.", text: "What mood would you prefer for your dining space?", options: [ { letter: "A", text: "Formal matching set — a dining room that feels like a proper occasion every time", style: "Traditional" }, { letter: "B", text: "Pale wood table with simple linen chairs — calm, natural, and always welcoming", style: "Scandinavian" }, { letter: "C", text: "Sleek glass or marble table with structured upholstered chairs — precise and impressive", style: "Modern" }, { letter: "D", text: "Ultra-minimal — a simple table, a few chairs, and nothing that doesn't need to be there", style: "Minimalist" }, { letter: "E", text: "Rustic wood table with mismatched vintage chairs — warm, imperfect, and full of charm", style: "Farmhouse" }, { letter: "F", text: "Whitewashed table with rattan or wicker chairs — breezy and relaxed", style: "Coastal" }, { letter: "G", text: "Eclectic mix of chairs, a bold table, and something unexpected as a centrepiece", style: "Boho/Eclectic" }, { letter: "H", text: "Industrial metal table with raw wood or steel stools — honest and urban", style: "Industrial" }, { letter: "I", text: "Retro teak dining set with sculpted chairs — warm, iconic, and quietly stylish", style: "Mid-Century" }, { letter: "J", text: "Classic wood table with updated upholstered chairs — elegant without being formal", style: "Transitional" }, { letter: "K", text: "A designer statement table that anchors the whole room — current and confident", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "Your dream bathroom consists of:", options: [ { letter: "A", text: "Marble surfaces, polished chrome fixtures, and a freestanding tub — quietly grand", style: "Traditional" }, { letter: "B", text: "Pale wood accents, simple white tile, and plants on every surface — calm and natural", style: "Scandinavian" }, { letter: "C", text: "Bold geometric tile, matte black fixtures, and clean precise lines — modern and impressive", style: "Modern" }, { letter: "D", text: "Spa-like simplicity — seamless surfaces, hidden storage, and absolutely nothing extra", style: "Minimalist" }, { letter: "E", text: "Shiplap walls, a clawfoot tub, and vintage-style fixtures — rustic and full of charm", style: "Farmhouse" }, { letter: "F", text: "White subway tile, driftwood accents, and soft coastal touches — breezy and clean", style: "Coastal" }, { letter: "G", text: "Patterned encaustic tile, global accents, and layered textiles — personal and vibrant", style: "Boho/Eclectic" }, { letter: "H", text: "Black-framed shower glass, subway tile, and exposed pipe fixtures — raw and urban", style: "Industrial" }, { letter: "I", text: "Retro geometric tile, warm brass fixtures, and a terrazzo floor — warm and iconic", style: "Mid-Century" }, { letter: "J", text: "Warm grey tile, elegant sconces, and a marble vanity top — refined and timeless", style: "Transitional" }, { letter: "K", text: "Sleek large-format stone, a bold mirror, and a statement fixture — current and confident", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "How do you accessorize?", options: [ { letter: "A", text: "Symmetrical pairs — matching, balanced arrangements, considered proportion", style: "Traditional" }, { letter: "B", text: "Natural accents — ceramics, plants, woven baskets, and simple organic objects", style: "Scandinavian" }, { letter: "C", text: "One carefully chosen sculptural statement piece — everything else steps back", style: "Modern" }, { letter: "D", text: "As little as possible — one object that earns its place, and nothing else", style: "Minimalist" }, { letter: "E", text: "Cozy layers — throws, cushions, candles, and things that make a room feel lived in", style: "Farmhouse" }, { letter: "F", text: "Driftwood, shells, and coastal objects — natural, relaxed, and personal", style: "Coastal" }, { letter: "G", text: "Plants, collected global finds, and personal objects that tell your travel story", style: "Boho/Eclectic" }, { letter: "H", text: "Industrial metal objects, oversized art, and raw functional pieces", style: "Industrial" }, { letter: "I", text: "Retro glassware, mid-century pottery, and design objects with real history", style: "Mid-Century" }, { letter: "J", text: "A balanced mix of antique finds and clean modern pieces — curated without being rigid", style: "Transitional" }, { letter: "K", text: "Bold lighting and large-scale art — statement pieces that anchor the whole room", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "Your dream art style is:", options: [ { letter: "A", text: "Classic oil paintings or botanical prints in gilt frames — traditional and quietly grand", style: "Traditional" }, { letter: "B", text: "Minimal pencil sketches or watercolours in simple frames — calm and understated", style: "Scandinavian" }, { letter: "C", text: "Bold abstracts or sculptural wall pieces — graphic, strong, and conversation-starting", style: "Modern" }, { letter: "D", text: "Black and white photography — precise, considered, and quietly powerful", style: "Minimalist" }, { letter: "E", text: "Rustic still life or landscape paintings — warm, familiar, and full of quiet story", style: "Farmhouse" }, { letter: "F", text: "Coastal photography or seascape paintings — light-filled, breezy, and calming", style: "Coastal" }, { letter: "G", text: "Global crafts, woven tapestries, and personal artwork collected over time", style: "Boho/Eclectic" }, { letter: "H", text: "Oversized black and white photography or raw industrial-scale prints", style: "Industrial" }, { letter: "I", text: "Bold graphic posters or iconic mid-century design prints — warm and design-forward", style: "Mid-Century" }, { letter: "J", text: "Elegant modern pieces that balance classic subject matter with clean presentation", style: "Transitional" }, { letter: "K", text: "Large-scale statement canvas in a current palette — bold, fresh, and confident", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "What type of flooring do you like?", options: [ { letter: "A", text: "Dark-stained hardwood — rich, formal, and deeply traditional", style: "Traditional" }, { letter: "B", text: "Pale oak planks with a natural matte finish — light, warm, and effortlessly calm", style: "Scandinavian" }, { letter: "C", text: "Polished large-format stone or tile — sleek, reflective, and precise", style: "Modern" }, { letter: "D", text: "Seamless poured concrete or epoxy — uninterrupted, quiet, and intentional", style: "Minimalist" }, { letter: "E", text: "Wide distressed planks with visible character and grain — warm and full of history", style: "Farmhouse" }, { letter: "F", text: "Whitewashed or bleached wood — light, breezy, and coastal", style: "Coastal" }, { letter: "G", text: "Patterned encaustic or Moroccan tile — vibrant, personal, and layered with story", style: "Boho/Eclectic" }, { letter: "H", text: "Raw concrete or dark stained concrete floors — honest, heavy, and industrial", style: "Industrial" }, { letter: "I", text: "Retro parquet or herringbone in warm walnut tones — iconic and quietly nostalgic", style: "Mid-Century" }, { letter: "J", text: "Neutral medium-toned hardwood — classic, warm, and works with everything", style: "Transitional" }, { letter: "K", text: "Wide engineered planks in a fashion-forward tone — current, clean, and confident", style: "Contemporary" } ] },
+  { section: null, sectionSub: null, text: "If your home had one signature detail, it would be:", options: [ { letter: "A", text: "Crown moulding, wainscoting, or a statement fireplace with a classic carved surround", style: "Traditional" }, { letter: "B", text: "Exposed wooden beams, a cozy reading nook, or floor-to-ceiling linen drapes", style: "Scandinavian" }, { letter: "C", text: "Floor-to-ceiling windows, seamless invisible built-ins, or a sculptural statement light", style: "Modern" }, { letter: "D", text: "Perfectly hidden storage, seamless hardware, and surfaces with nothing on them", style: "Minimalist" }, { letter: "E", text: "A sliding barn door, an apron sink, or a shiplap feature wall", style: "Farmhouse" }, { letter: "F", text: "Breezy sheer curtains, whitewashed brick, or driftwood architectural details", style: "Coastal" }, { letter: "G", text: "A layered gallery wall, a statement vintage rug, or plants filling every corner", style: "Boho/Eclectic" }, { letter: "H", text: "An exposed brick wall, steel-framed windows, or raw concrete ceiling", style: "Industrial" }, { letter: "I", text: "A Sputnik chandelier, retro pendant cluster, or iconic mid-century furniture grouping", style: "Mid-Century" }, { letter: "J", text: "Subtle grasscloth wallpaper, classic symmetrical built-ins, or a neutral statement fireplace", style: "Transitional" }, { letter: "K", text: "A bold architectural feature wall, oversized designer pendant, or unexpected finish", style: "Contemporary" } ] },
+];
+const styleData = {
+  "Traditional": { tagline: "Your home should feel like a place of quiet elegance and timeless comfort — the kind of space that feels established, considered, and genuinely welcoming.", desc: "You are drawn to rich wood tones, layered textiles, symmetrical arrangements, formal lighting, and spaces that feel refined without feeling untouchable. There is a sense of craftsmanship and permanence in everything you choose. Invest in quality antiques, classic upholstery, and architectural details like crown moulding and wainscoting. Your palette runs to deep jewel tones, cream, and gold. Let every room feel like it has been curated over a lifetime — because the best Traditional homes always do." },
+  "Scandinavian": { tagline: "Your home should feel like a quiet exhale — calm, natural, and genuinely cozy without ever feeling sparse or cold.", desc: "You are drawn to pale wood, linen and wool textures, soft diffused light, abundant plants, and spaces that feel simple in the best possible way. Warmth matters as much as beauty, and clutter is the enemy of both. Build your palette around soft whites, sage greens, and warm cream. Layer natural textures — wool throws, ceramic bowls, woven baskets — for depth without drama. Every room should feel like somewhere you genuinely want to spend a Sunday morning." },
+  "Modern": { tagline: "Your home should feel sleek, intentional, and free of anything that doesn't earn its place.", desc: "You are drawn to clean lines, bold contrasts, function-forward furniture, statement lighting, and spaces where every detail feels considered and purposeful. You do not want fuss — you want impact. Work with a tight palette of black, white, and one considered accent. Choose furniture with strong silhouettes and invest in one or two pieces that double as sculpture. Let your lighting do the heavy lifting — a single extraordinary fixture can anchor an entire room." },
+  "Minimalist": { tagline: "Your home should feel like a breath of clear air — calm, uncluttered, and so considered that nothing feels accidental.", desc: "You are drawn to a strict palette, clear surfaces, hidden storage, and spaces where every single object earns its place. Less is not just more for you — it is everything. Invest in quality over quantity at every turn. Choose furniture with invisible hardware and seamless lines. Keep walls bare or near-bare. Let natural light be your primary decorative element. The discipline required to maintain a truly Minimalist home is its own form of beauty." },
+  "Farmhouse": { tagline: "Your home should feel cozy, unpretentious, and like it has always been there — the kind of space that immediately puts people at ease.", desc: "You are drawn to warm wood tones, shiplap details, vintage-inspired fixtures, relaxed textiles, and spaces that feel lived-in in the very best way. Build around creamy whites, honey woods, and earthy warm neutrals. Mix old and new — a vintage farmhouse table with fresh linen chairs, reclaimed wood shelving with new ceramic pieces. Let imperfection be intentional. The Farmhouse home should feel like somewhere people gather, linger, and never want to leave." },
+  "Coastal": { tagline: "Your home should feel like a permanent exhale — easy, airy, and carrying the unhurried feeling of being near the water.", desc: "You are drawn to sandy neutrals, natural materials, soft blues and whites, woven textures, and spaces that feel open, bright, and completely unpretentious. Let natural light flood every room. Work with a palette of white, cream, driftwood, and one soft blue or green. Layer natural textures — jute rugs, rattan furniture, linen drapery — for warmth without weight. Coastal style works in any city, any climate. It is a feeling, not a location." },
+  "Boho/Eclectic": { tagline: "Your home should feel layered, soulful, and completely, unapologetically you.", desc: "You are drawn to global textiles, collected treasures, rich earthy tones, pattern mixing, abundant plants, and spaces that feel like they have been curated over a lifetime of beautiful experiences. No matching sets. No rules. Build your palette around terracotta, mustard, olive, and rust — then let everything else follow instinct. Layer rugs on rugs. Mix metals. Hang art salon-style. Your home should tell your story so clearly that a stranger could read it — and that is exactly the point." },
+  "Industrial": { tagline: "Your home should feel like it has real character — the kind that comes from materials left in their natural state and spaces that do not try too hard.", desc: "You are drawn to exposed brick, dark metal, reclaimed wood, concrete surfaces, and interiors that feel authentic, urban, and quietly dramatic. Work with a palette of charcoal, raw timber, black steel, and aged leather. Leave structural elements exposed where possible. Choose furniture that is functional first and beautiful second. Industrial style rewards restraint — let the materials do the work and resist the urge to soften everything." },
+  "Mid-Century": { tagline: "Your home should feel design-forward without feeling like a museum — warm, inviting, and full of pieces that have real personality.", desc: "You are drawn to tapered legs, walnut tones, bold graphic shapes, warm lighting, and spaces that feel considered and quietly confident. Retro without trying to be. Build around warm mid-tones — walnut, teak, burnt orange, mustard, and olive. Invest in one or two truly iconic pieces and let them set the tone. Mix Mid-Century furniture with contemporary art for a result that feels current rather than nostalgic. The best Mid-Century rooms feel like they belong to right now." },
+  "Transitional": { tagline: "Your home should feel balanced — classic enough to feel timeless, current enough to feel fresh and alive.", desc: "You are drawn to spaces that honour traditional comfort without feeling formal, and embrace clean modern lines without feeling cold. Warm neutrals, quality materials, and thoughtful layering are your foundation. Build your palette around warm greige, taupe, and soft white. Mix classic upholstered pieces with cleaner-lined accent furniture. Choose hardware and lighting that bridge both worlds — a classic shape in a modern finish, or vice versa. Transitional homes are the most livable of all — and the most universally beautiful." },
+  "Contemporary": { tagline: "Your home should feel alive with intention — stylish, considered, and aware of the moment without being a slave to it.", desc: "You are drawn to trend-aware finishes, statement lighting, bold artwork, and spaces that feel polished and current. You want your home to feel like it belongs to right now. Work with a palette that has one strong current-season colour alongside reliable neutrals. Invest in statement lighting and large-scale art. Update soft furnishings seasonally to keep the space feeling fresh. The Contemporary home is confident enough to evolve — and that is exactly its strength." },
+};
+const hybridData = {
+  "Traditional+Scandinavian": "You love warmth and elegance in equal measure. Traditional grounds your space with rich woods and refined detail, while Scandinavian softens everything with natural light and calm simplicity. The result is a home that feels timeless, cozy, and quietly beautiful — formal enough to impress, relaxed enough to live in completely.",
+  "Traditional+Modern": "You love classic structure but crave clean lines. Traditional roots your space in elegance and craftsmanship, while Modern sharpens it up with simplicity and purpose. Together it feels sophisticated, fresh, and completely livable — the kind of home that looks like it took years to assemble but feels effortless.",
+  "Traditional+Transitional": "You love timeless elegance but with a softer, more livable touch. Traditional keeps the classics — the craftsmanship, the symmetry, the rich materials — while Transitional simplifies the details just enough. The blend feels formal yet completely welcoming — the most livable version of Traditional there is.",
+  "Scandinavian+Minimalist": "You love simplicity and calm, but you do not want stark or cold. Scandinavian brings warmth and natural texture to Minimalism's clean lines. Together it is cozy and uncluttered — a home that feels intentional without feeling austere, and warm without ever feeling busy.",
+  "Scandinavian+Coastal": "Both love light, airiness, and natural materials. Scandinavian keeps it simple and functional, while Coastal adds breezy, beachy serenity. Perfect for relaxed living — pale woods, linen textures, soft blues and whites, and a home that always feels like a quiet weekend morning.",
+  "Modern+Minimalist": "You are sleek, streamlined, and love uncluttered spaces. Minimalist strips it down to essentials, while Modern adds bold contrasts or statement pieces. Together it is polished yet livable — the kind of home that looks extraordinary in photographs and feels even better in person.",
+  "Modern+Contemporary": "Both share clean lines, but Contemporary is trend-driven while Modern is more classically resolved. Together you get timeless structure with a fresh, up-to-date edge — a home that feels current without chasing trends, and considered without feeling rigid.",
+  "Farmhouse+Coastal": "Rustic comfort meets breezy calm. Farmhouse brings warmth with wood and vintage touches, while Coastal layers in sandy neutrals and soft blues. The result is cozy, fresh, and endlessly inviting — a home that feels like a seaside farmhouse on a perfect summer afternoon.",
+  "Farmhouse+Industrial": "You love character with contrast. Farmhouse brings rustic wood and charm, while Industrial adds metal, brick, and grit. The result is cozy with edge — warm enough to feel like home, raw enough to feel real. Reclaimed wood with black steel. Vintage textiles with concrete. It works beautifully.",
+  "Coastal+Boho/Eclectic": "You love personality and breezy calm in equal measure. Boho layers textures and colour, while Coastal tones them down with neutrals and airiness. Together it feels vibrant but grounded — a home full of global finds and natural materials that always feels light and welcoming.",
+  "Boho/Eclectic+Industrial": "Raw textures meet colourful creativity. Industrial grounds your space with steel, brick, and wood, while Boho brings vibrancy and personality. The result is urban with heart — a home that feels authentically creative, visually rich, and completely unlike anyone else's.",
+  "Industrial+Mid-Century": "You love raw authenticity with warmth and style. Industrial brings the structural drama — exposed brick, dark metal, concrete — while Mid-Century softens it with iconic warm wood furniture and graphic shapes. Together it is the most interesting room in the building.",
+  "Mid-Century+Contemporary": "Retro curves meet today's trends. Mid-Century adds warmth and character, while Contemporary ensures it feels relevant and current. The blend is playful, stylish, and forward-thinking — a home that honours great design history while firmly belonging to the present.",
+  "Transitional+Contemporary": "You love the security of timeless design with the energy of what is current. Transitional gives you the warm neutral foundation and classic comfort, while Contemporary layers in the bold lighting, fresh art, and current finishes that keep it feeling alive. The result is a home that will never look dated.",
+  "Minimalist+Transitional": "You love edited spaces that still feel genuinely warm and livable. Minimalist keeps the surfaces clear and the palette quiet, while Transitional adds just enough classic texture and comfort to prevent it from feeling stark. Together it is the most serene version of Transitional — calm, considered, and beautifully resolved.",
+};
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+function render() {
+  const q = questions[current];
+  document.getElementById('qlabel').textContent = 'Question ' + (current + 1) + ' of ' + questions.length;
+  document.getElementById('qtext').textContent = q.text;
+  document.getElementById('prog').style.width = ((current / questions.length) * 100) + '%';
+  const sh = document.getElementById('sectionHeader');
+  if (q.section) {
+    sh.style.display = 'block';
+    document.getElementById('sectionTitle').textContent = q.section;
+    document.getElementById('sectionSub').textContent = q.sectionSub || '';
+  } else {
+    sh.style.display = 'none';
+  }
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  q.options.forEach(function(o, i) {
+    const div = document.createElement('div');
+    div.className = 'option' + (answers[current] === i ? ' selected' : '');
+    div.innerHTML = '<div class="option-letter">' + o.letter + '</div><div class="option-text">' + o.text + '</div>';
+    div.onclick = function() { selectOption(i); };
+    opts.appendChild(div);
+  });
+  document.getElementById('prevBtn').style.visibility = current === 0 ? 'hidden' : 'visible';
+  document.getElementById('nextBtn').textContent = current === questions.length - 1 ? 'See my style →' : 'Next →';
+  document.getElementById('nextBtn').disabled = answers[current] === null;
+}
+function selectOption(i) {
+  answers[current] = i;
+  document.querySelectorAll('.option').forEach(function(el, idx) {
+    el.classList.toggle('selected', idx === i);
+  });
+  document.getElementById('nextBtn').disabled = false;
+}
+function nextQ() {
+  if (current < questions.length - 1) { current++; render(); }
+  else { showResult(); }
+}
+function prevQ() {
+  if (current > 0) { current--; render(); }
+}
+function showResult() {
+  var scores = {};
+  ['Traditional','Scandinavian','Modern','Minimalist','Farmhouse','Coastal','Boho/Eclectic','Industrial','Mid-Century','Transitional','Contemporary'].forEach(function(s){ scores[s] = 0; });
+  answers.forEach(function(ans, qi) {
+    if (ans !== null) { scores[questions[qi].options[ans].style]++; }
+  });
+  var sorted = Object.entries(scores).sort(function(a,b){ return b[1]-a[1]; });
+  var primary = sorted[0][0];
+  var secondary = sorted[1][0];
+  var isHybrid = Math.abs(sorted[0][1] - sorted[1][1]) <= 1;
+  var primaryData = styleData[primary];
+  var total = questions.length;
+  window.quizStyleResult = primary + (isHybrid ? (' + ' + secondary) : '');
+  document.getElementById('rPrimary').textContent = primary.toUpperCase();
+  document.getElementById('rSecondaryLabel').style.display = 'block';
+  document.getElementById('rSecondary').textContent = secondary.toUpperCase();
+  var badge = document.getElementById('hybridBadge');
+  if (isHybrid) {
+    badge.classList.add('visible');
+    document.getElementById('hybridCombo').textContent = primary + ' + ' + secondary;
+    var hybridKey = primary + '+' + secondary;
+    var hybridDesc = hybridData[hybridKey] || hybridData[secondary + '+' + primary] || 'Your home is a beautiful blend of both styles — the best of two worlds working together.';
+    document.getElementById('hybridDesc').textContent = hybridDesc;
+  }
+  document.getElementById('rTagline').textContent = primaryData.tagline;
+  document.getElementById('rDesc').textContent = primaryData.desc;
+  var bars = document.getElementById('scoreBars');
+  bars.innerHTML = '';
+  sorted.forEach(function(entry, idx) {
+    var name = entry[0]; var score = entry[1];
+    var row = document.createElement('div');
+    row.className = 'score-row';
+    var fillClass = idx === 0 ? 'score-fill' : (idx === 1 ? 'score-fill secondary' : 'score-fill');
+    var fillStyle = idx > 1 ? 'background: #ede8e3;' : '';
+    row.innerHTML = '<div class="score-name">' + name + '</div><div class="score-track"><div class="' + fillClass + '" id="sfill-' + idx + '" style="width:0%;' + fillStyle + '"></div></div><div class="score-num">' + score + '</div>';
+    bars.appendChild(row);
+    setTimeout(function(){
+      var el = document.getElementById('sfill-' + idx);
+      if (el) el.style.width = Math.round((score/total)*100) + '%';
+    }, 100 + idx * 50);
+  });
+  var fbText = encodeURIComponent('I just discovered my interior design style — I am a ' + primary + (isHybrid ? ' + ' + secondary : '') + '! Find out yours at ldesigns.ca #interiordesign #ldesignsinteriors');
+  document.getElementById('fbShareBtn').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('https://www.ldesigns.ca') + '&quote=' + fbText;
+  document.getElementById('tipsUpsell').style.display = 'block';
+  document.getElementById('prog').style.width = '100%';
+  document.getElementById('sectionHeader').style.display = 'none';
+  document.getElementById('qscreen').style.display = 'none';
+  document.getElementById('rscreen').style.display = 'block';
+  window.scrollTo(0,0);
+  var delays = [100, 300, 600, 1000, 1500, 2500];
+  delays.forEach(function(d) { setTimeout(reportHeight, d); });
+}
+function retake() {
+  current = 0;
+  answers = new Array(questions.length).fill(null);
+  document.getElementById('hybridBadge').classList.remove('visible');
+  document.getElementById('rSecondaryLabel').style.display = 'none';
+  document.getElementById('rSecondary').textContent = '';
+  document.getElementById('tipsUpsell').style.display = 'none';
+  document.getElementById('qscreen').style.display = 'block';
+  document.getElementById('rscreen').style.display = 'none';
+  render();
+}
+render();
+</script>
+<script>
+function reportHeight() {
+  var height = Math.max(
+    document.documentElement.offsetHeight,
+    document.documentElement.scrollHeight,
+    document.body.offsetHeight,
+    document.body.scrollHeight
+  ) + 150;
+  window.parent.postMessage({ type: 'setHeight', height: height }, '*');
+}
+if (window.ResizeObserver) {
+  var ro = new ResizeObserver(function() { reportHeight(); });
+  ro.observe(document.body);
+  ro.observe(document.querySelector('.quiz-wrap'));
+}
+var mo = new MutationObserver(function() {
+  reportHeight();
+  setTimeout(reportHeight, 300);
+  setTimeout(reportHeight, 800);
+});
+mo.observe(document.body, { childList: true, subtree: true, attributes: true });
+window.addEventListener('load', function() {
+  reportHeight();
+  setTimeout(reportHeight, 500);
+  setTimeout(reportHeight, 1500);
+});
+document.addEventListener('click', function() {
+  [100, 400, 800, 1500, 2500].forEach(function(d) { setTimeout(reportHeight, d); });
+});
+</script>
+</body>
+</html>

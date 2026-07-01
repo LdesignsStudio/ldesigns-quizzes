@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interior Design Style Quiz — L|Designs Interiors</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: auto; }
+  body { font-family: 'Playfair Display', Georgia, serif; background: #f5f1ed; display: flex; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-x: hidden; }
+  .quiz-wrap { max-width: 100%; width: 100%; }
+  .quiz-header { background: rgba(228, 220, 212, 0.35); padding: 1rem 2rem; text-align: center; border-radius: 0; }
+  .quiz-header h1 { font-size: clamp(18px, 4vw, 32px); font-weight: 400; color: #3c3020; margin-top: 0.25rem; letter-spacing: 0.5px; font-family: 'Playfair Display', Georgia, serif; }
+  .quiz-header p { color: #7a6a5a; font-size: clamp(14px, 3vw, 26px); margin-top: 0.3rem; font-style: italic; font-family: 'Playfair Display', Georgia, serif; }
+  .quiz-hero-image { width: 100%; height: 180px; object-fit: cover; object-position: center 40%; display: block; }
+  .progress-bar { background: #c8bdb4; height: 4px; }
+  .progress-fill { background: #5a4a3a; height: 4px; transition: width 0.4s ease; }
+  .question-screen { padding: 2rem; background: #fff; border: 1px solid #e0d8d0; }
+  .q-label { font-size: 11px; letter-spacing: 3px; color: #7a6a5a; font-weight: 700; text-transform: uppercase; margin-bottom: 0.75rem; font-family: 'Raleway', Arial, sans-serif; }
+  .q-text { font-size: 22px; font-weight: 400; color: #2c2c2c; line-height: 1.4; margin-bottom: 1.5rem; font-family: 'Playfair Display', Georgia, serif; }
+  .option { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border: 1px solid #e0d8d0; border-radius: 8px; cursor: pointer; margin-bottom: 10px; transition: all 0.15s; background: #fff; }
+  .option:hover { border-color: #7a6a5a; background: #faf8f6; }
+  .option.selected { border-color: #7a6a5a; background: #f5f1ed; }
+  .option-letter { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #c0b4a8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #7a6a5a; flex-shrink: 0; transition: all 0.15s; font-family: 'Raleway', Arial, sans-serif; }
+  .option.selected .option-letter { background: rgba(228, 220, 212, 0.35); border-color: #7a6a5a; color: #fff; }
+  .option-text { font-size: 14px; color: #3c3c3c; line-height: 1.55; padding-top: 4px; font-family: 'Raleway', Arial, sans-serif; }
+  .nav-row { display: flex; justify-content: center; align-items: center; gap: 100px; margin-top: 1.5rem; }
+  .btn { padding: 11px 26px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; border: 1px solid; transition: all 0.15s; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+  .btn-primary { background: rgba(228, 220, 212, 0.35); border-color: #7a6a5a; color: #7a6a5a; }
+  .btn-primary:hover { background: #7a6a5a; color: #fff; }
+  .btn-primary:disabled { background: #c8bdb4; border-color: #c8bdb4; color: #fff; opacity: 1; cursor: not-allowed; }
+  .btn-ghost { background: transparent; border-color: #c0b4a8; color: #7a6a5a; }
+  .btn-ghost:hover { border-color: #7a6a5a; }
+  .result-screen { display: none; background: #fff; border: 1px solid #e0d8d0; }
+  .result-hero { background: rgba(228, 220, 212, 0.35); padding: 2.5rem 2rem; text-align: center; }
+  .result-label { font-size: 11px; letter-spacing: 3px; color: #8a7a6a; text-transform: uppercase; font-family: 'Raleway', Arial, sans-serif; }
+  .result-style { font-size: clamp(28px, 8vw, 84px) !important; font-weight: 500; color: #3c3020; margin: 0.5rem 0; letter-spacing: 2px; font-family: 'Playfair Display', Georgia, serif; text-transform: uppercase !important; line-height: 1.1; word-break: break-word; }
+  .result-body { padding: 2rem; text-align: center; }
+  .result-tagline { font-size: 28px; font-style: italic; color: #5a4a3a; line-height: 1.6; margin-bottom: 1.25rem; text-align: center; font-family: 'Playfair Display', Georgia, serif; }
+  .result-desc { font-size: 18px; color: #555; line-height: 1.75; margin-bottom: 1.75rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; text-align: center; max-width: 620px; margin-left: auto; margin-right: auto; }
+  .score-section h3 { font-size: 11px; letter-spacing: 3px; color: #7a6a5a; text-transform: uppercase; margin-bottom: 1rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; text-align: center; }
+  .score-bars { margin-bottom: 1.75rem; }
+  .score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; text-align: left; }
+  .score-name { font-size: 13px; color: #555; width: 120px; flex-shrink: 0; font-family: 'Raleway', Arial, sans-serif; }
+  .score-track { flex: 1; background: #ede8e3; height: 6px; border-radius: 3px; overflow: hidden; }
+  .score-fill { height: 6px; border-radius: 3px; background: rgba(228, 220, 212, 0.35); width: 0; transition: width 0.9s ease; }
+  .score-num { font-size: 12px; color: #999; width: 20px; text-align: right; font-family: Arial, sans-serif; }
+  .upsell { border: 2px solid #7a6a5a; border-radius: 8px; margin-bottom: 1.25rem; background: #faf8f6; overflow: hidden; }
+  .upsell-inner { display: flex; gap: 0; align-items: stretch; }
+  .upsell-image { width: 40%; flex-shrink: 0; }
+  .upsell-image img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .upsell-content { flex: 1; padding: 2rem; text-align: left; }
+  .upsell-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
+  .upsell h3 { font-size: 26px; font-weight: 500; color: #2c2c2c; margin-bottom: 0.75rem; font-family: 'Playfair Display', Georgia, serif; }
+  .upsell-sub { font-size: 14px; color: #666; line-height: 1.7; margin-bottom: 1.25rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
+  .upsell-features { margin-bottom: 1.5rem; }
+  .upsell-features div { font-size: 15px; color: #5a4a3a; font-family: 'Raleway', Arial, sans-serif; padding: 5px 0; font-weight: 500; }
+  .upsell a.upsell-btn { display: inline-block; padding: 11px 30px; background: #7a6a5a; color: #fff; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 700; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; }
+  .upsell a.upsell-btn:hover { background: #6a5a4a; }
+  .upsell-nudge { font-size: 14px; color: #999; font-family: 'Raleway', Arial, sans-serif; font-style: italic; margin-top: 0.75rem; line-height: 1.4; }
+  /* Flodesk gate */
+  .flodesk-gate { border: 2px solid #7a6a5a; border-radius: 8px; margin-bottom: 1.25rem; background: #faf8f6; padding: 2rem; text-align: left; }
+  .flodesk-gate-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
+  .flodesk-gate h3 { font-size: 22px; font-weight: 500; color: #2c2c2c; margin-bottom: 0.5rem; font-family: 'Playfair Display', Georgia, serif; }
+  .flodesk-gate p { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 1.25rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
+  .flodesk-gate input { width: 100%; padding: 11px 14px; margin-bottom: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: 'Raleway', Arial, sans-serif; }
+  .flodesk-gate input:focus { outline: none; border-color: #7a6a5a; }
+  .flodesk-gate .gate-submit { display: inline-block; padding: 11px 28px; background: #3c2e22; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; }
+  .flodesk-gate .gate-submit:hover { background: #5a4a3a; }
+  .flodesk-gate .gate-submit:disabled { opacity: 0.6; cursor: default; }
+  .flodesk-gate .gate-error { color: #b3261e; font-size: 12px; margin-top: 0.5rem; display: none; font-family: 'Raleway', Arial, sans-serif; }
+  .flodesk-gate .gate-success { color: #3c7a3c; font-size: 14px; margin-top: 0.75rem; display: none; font-family: 'Raleway', Arial, sans-serif; font-weight: 500; }
+  .flodesk-gate .gate-privacy { font-size: 11px; color: #999; margin-top: 0.75rem; line-height: 1.5; font-family: 'Raleway', Arial, sans-serif; }
+  .flodesk-gate .gate-privacy a { color: #7a6a5a; }
+  .social-section { margin-bottom: 1.5rem; text-align: center; }
+  .social-section h3 { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.75rem; }
+  .btn-fb { display: inline-flex; align-items: center; gap: 8px; padding: 11px 24px; background: #1877F2; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; text-decoration: none; }
+  .btn-fb:hover { background: #0e65d4; }
+  .follow-nudge { font-size: 13px; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-style: italic; margin-top: 0.75rem; }
+  .follow-nudge a { color: #5a4a3a; font-weight: 600; text-decoration: none; }
+  .footer-note { text-align: center; padding: 1rem 2rem 1.5rem; border-top: 1px solid #f0eae4; }
+  .footer-note p { font-size: 12px; color: #999; font-family: 'Raleway', Arial, sans-serif; }
+  .footer-note a { color: #7a6a5a; text-decoration: none; }
+  .retake { text-align: center; margin-bottom: 0.5rem; }
+  .retake button { background: none; border: none; color: #7a6a5a; font-size: 13px; cursor: pointer; text-decoration: underline; font-family: 'Raleway', Arial, sans-serif; }
+  @media (max-width: 768px) {
+    .upsell-inner { flex-direction: column; }
+    .upsell-image { width: 100%; height: 200px; }
+    .upsell-content { padding: 1.25rem; text-align: center; }
+    body { padding: 0 30px 0.5rem; }
+    .quiz-header h1 { font-size: 22px; }
+    .quiz-header p { font-size: 16px; }
+    .q-text { font-size: 18px; }
+    .result-hero { padding: 1.5rem 1rem; }
+    .nav-row { gap: 12px; }
+  }
+  @media (max-width: 480px) {
+    body { padding: 0 12px 1rem; }
+    .quiz-header { padding: 0.5rem 1rem; }
+    .quiz-header h1 { font-size: 16px; margin-top: 0; }
+    .quiz-header p { font-size: 13px; margin-top: 0.1rem; }
+    .quiz-hero-image { display: none; }
+    .q-text { font-size: 16px; }
+    .q-label { font-size: 10px; margin-bottom: 0.5rem; }
+    .option { padding: 10px 12px; margin-bottom: 7px; }
+    .option-text { font-size: 13px; }
+    .question-screen { padding: 1rem; }
+    .nav-row { margin-top: 1rem; gap: 10px; justify-content: space-between; }
+    .btn { padding: 11px 18px; }
+    .result-hero { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<div class="quiz-wrap">
+  <div class="quiz-header">
+    <h1>Interior Design Style Quiz</h1>
+    <p>Your home should feel like you.</p>
+  </div>
+  <img class="quiz-hero-image" src="https://static.wixstatic.com/media/ae662e_4179535f9c354199a2450533b7084024~mv2_d_3000_2000_s_2.jpg" alt="Beautiful interior by L|Designs Interiors" onload="setTimeout(reportHeight,100);">
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+  <div class="question-screen" id="qscreen">
+    <div class="q-label" id="qlabel">Question 1 of 6</div>
+    <div class="q-text" id="qtext"></div>
+    <div id="options"></div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" id="prevBtn" onclick="prevQ()" style="visibility:hidden">← Back</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next →</button>
+    </div>
+  </div>
+  <div class="result-screen" id="rscreen">
+    <div class="result-hero">
+      <div class="result-label">Your design style is</div>
+      <div class="result-style" id="rStyle">—</div>
+    </div>
+    <div class="result-body">
+      <div class="result-tagline" id="rTagline"></div>
+
+      <!-- UPSELL: Full 20Q quiz -->
+      <div class="upsell">
+        <div class="upsell-inner">
+          <div class="upsell-image">
+            <img src="https://static.wixstatic.com/media/ae662e_4179535f9c354199a2450533b7084024~mv2_d_3000_2000_s_2.jpg" alt="Beautiful interior by L|Designs Interiors" onload="setTimeout(reportHeight,100);setTimeout(reportHeight,500);">
+          </div>
+          <div class="upsell-content">
+            <div class="upsell-eyebrow">This is just the beginning.</div>
+            <h3>Is Your Style Pure or a Hybrid Blend?</h3>
+            <p class="upsell-sub">6 questions can reveal your dominant style — but most people are a beautiful blend of two. The full 20-question quiz uncovers all 11 style profiles, identifies your exact hybrid combination, and tells you precisely what that means for your home.</p>
+            <div class="upsell-features">
+              <div>✦ 20 in-depth questions</div>
+              <div>✦ 11 complete style profiles</div>
+              <div>✦ Your exact hybrid combination revealed</div>
+              <div>✦ Full descriptions for every style</div>
+              <div>✦ Free 10 Design Tips guide included</div>
+            </div>
+            <a href="https://www.ldesigns.ca/style-quiz" target="_blank" class="upsell-btn" onclick="trackUpsellClick()">Take the Full Quiz — Free →</a>
+            <div class="upsell-nudge">The clarity most homeowners spend years searching for — and it's completely free.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLODESK: Email capture for free 10-tip guide -->
+      <div class="flodesk-gate">
+        <div class="flodesk-gate-eyebrow">Free guide</div>
+        <h3>10 Things Your Decorator Knows That You Don't</h3>
+        <p>Insider design rules from 18 years of working with GTA homeowners — rug sizing, paint undertones, lighting placement, and more. Enter your email and it's yours, free.</p>
+        <div id="flodesk-form-wrap">
+          <input type="text" id="fd-first-name" placeholder="First name" autocomplete="given-name">
+          <input type="email" id="fd-email" placeholder="Email address" autocomplete="email">
+          <button class="gate-submit" id="fd-submit" onclick="submitToFlodesk()">Get the Free Guide</button>
+          <div class="gate-error" id="fd-error"></div>
+          <div class="gate-success" id="fd-success">You're in! Check your inbox for your free guide.</div>
+          <p class="gate-privacy">By submitting, you agree to receive your guide and occasional design tips from Ldesigns Interiors. See our <a href="https://www.ldesigns.ca/privacy" target="_blank">Privacy Policy</a>.</p>
+        </div>
+      </div>
+
+      <div class="result-desc" id="rDesc"></div>
+      <div class="score-section">
+        <h3>Your style breakdown</h3>
+        <div class="score-bars" id="scoreBars"></div>
+      </div>
+      <div class="social-section">
+        <h3>Share your result</h3>
+        <a id="fbShareBtn" href="#" target="_blank" class="btn-fb">Share on Facebook</a>
+        <div class="follow-nudge">Love your result? Follow us <a href="https://www.instagram.com/ldesignsinteriors" target="_blank">@ldesignsinteriors</a> for daily design inspiration.</div>
+      </div>
+      <div class="retake"><button onclick="retake()">Retake the quiz</button></div>
+    </div>
+    <div class="footer-note">
+      <p>Based in Toronto &amp; serving the GTA &nbsp;|&nbsp; <a href="https://www.ldesigns.ca" target="_blank">ldesigns.ca</a> &nbsp;|&nbsp; @ldesignsinteriors</p>
+    </div>
+  </div>
+</div>
+<script>
+var questions = [
+  {
+    text: "Which living room makes you feel most at home?",
+    options: [
+      { letter: "A", text: "Elegant sofa with rich wood tones, matching lamps, + layered textiles", style: "Traditional" },
+      { letter: "B", text: "Bright, airy space with pale wood, linen cushions, and soft natural light", style: "Scandinavian" },
+      { letter: "C", text: "Sleek sectional, low coffee table, bold artwork, and minimal accessories", style: "Modern" },
+      { letter: "D", text: "Layered rugs, mixed cushions, plants everywhere, and collected treasures on every shelf", style: "Boho/Eclectic" },
+      { letter: "E", text: "Classic tailored sofa with clean lines, neutral palette, and one modern accent piece", style: "Transitional" }
+    ]
+  },
+  {
+    text: "What does your dream kitchen look like?",
+    options: [
+      { letter: "A", text: "White cabinets with crown moulding, a classic chandelier, and marble countertops", style: "Traditional" },
+      { letter: "B", text: "Open shelving, pale oak cabinets, lots of natural light, and simple hardware", style: "Scandinavian" },
+      { letter: "C", text: "Flat-panel cabinetry, quartz counters, minimal hardware, statement pendant lighting", style: "Modern" },
+      { letter: "D", text: "Bright tile backsplash, open shelving with eclectic dishware, and warm mixed finishes", style: "Boho/Eclectic" },
+      { letter: "E", text: "Timeless cabinetry with slightly simplified lines, quality hardware, and a clean neutral palette", style: "Transitional" }
+    ]
+  },
+  {
+    text: "Which colour palette feels most like you?",
+    options: [
+      { letter: "A", text: "Rich, warm tones — deep navy, forest green, burgundy, or cream with gold accents", style: "Traditional" },
+      { letter: "B", text: "Soft and natural — white, pale wood, sage green, and warm cream", style: "Scandinavian" },
+      { letter: "C", text: "Bold and graphic — black, white, and grey with one strong colour pop", style: "Modern" },
+      { letter: "D", text: "Earthy and warm — terracotta, mustard, olive green, and rust", style: "Boho/Eclectic" },
+      { letter: "E", text: "Soft and balanced — warm greige, taupe, soft white with subtle classic accents", style: "Transitional" }
+    ]
+  },
+  {
+    text: "If your dream weekend getaway had an interior, it would look like:",
+    options: [
+      { letter: "A", text: "A historic inn — antique furniture, rich drapery, and rooms full of character and charm", style: "Traditional" },
+      { letter: "B", text: "A Nordic cabin — pale wood, cozy blankets, candlelight, and views of nature", style: "Scandinavian" },
+      { letter: "C", text: "A sleek city hotel — clean architecture, statement lighting, and nothing out of place", style: "Modern" },
+      { letter: "D", text: "A colourful boutique retreat — layered rugs, global art, and a different story in every corner", style: "Boho/Eclectic" },
+      { letter: "E", text: "A classic countryside resort — elegant but relaxed, timeless but never stuffy", style: "Transitional" }
+    ]
+  },
+  {
+    text: "How would you like your home to feel when you walk in?",
+    options: [
+      { letter: "A", text: "Formal and elegant — like a home that has been thoughtfully curated over a lifetime", style: "Traditional" },
+      { letter: "B", text: "Calm and natural — like a quiet exhale, warm and uncluttered", style: "Scandinavian" },
+      { letter: "C", text: "Sleek and impressive — like every element was chosen with precision and confidence", style: "Modern" },
+      { letter: "D", text: "Creative and alive — layered, personal, and full of things that tell your story", style: "Boho/Eclectic" },
+      { letter: "E", text: "Balanced and welcoming — pulled together without feeling too formal or too casual", style: "Transitional" }
+    ]
+  },
+  {
+    text: "If your home had one signature detail, it would be:",
+    options: [
+      { letter: "A", text: "Crown moulding, wainscoting, or a statement fireplace with a classic surround", style: "Traditional" },
+      { letter: "B", text: "Exposed wooden beams, a cozy reading nook, or floor-to-ceiling linen drapes", style: "Scandinavian" },
+      { letter: "C", text: "Floor-to-ceiling windows, seamless built-ins, or a sculptural light fixture", style: "Modern" },
+      { letter: "D", text: "A gallery wall of eclectic art, a statement vintage rug, or plants in every corner", style: "Boho/Eclectic" },
+      { letter: "E", text: "Neutral wallpaper with subtle texture, classic panelling with a modern twist, or symmetrical built-ins", style: "Transitional" }
+    ]
+  }
+];
+var styleData = {
+  Traditional: {
+    tagline: "Your home should feel like a place of quiet elegance and timeless comfort — the kind of space that feels established, considered, and genuinely welcoming.",
+    desc: "You're drawn to rich wood tones, layered textiles, symmetrical arrangements, classic lighting, and spaces that feel refined without feeling untouchable. There's a sense of craftsmanship and permanence in everything you choose."
+  },
+  Scandinavian: {
+    tagline: "Your home should feel like a quiet exhale — calm, natural, and genuinely cozy without ever feeling sparse or cold.",
+    desc: "You're drawn to pale wood, linen and wool textures, soft diffused light, plants, and spaces that feel simple in the best possible way. Warmth matters as much as beauty, and clutter is the enemy of both."
+  },
+  Modern: {
+    tagline: "Your home should feel sleek, intentional, and free of anything that doesn't earn its place.",
+    desc: "You're drawn to clean lines, bold contrasts, function-forward furniture, statement lighting, and spaces where every detail feels considered and purposeful. You don't want fuss — you want impact."
+  },
+  "Boho/Eclectic": {
+    tagline: "Your home should feel layered, soulful, and completely, unapologetically you.",
+    desc: "You're drawn to global textiles, collected treasures, rich earthy tones, pattern mixing, abundant plants, and spaces that feel like they've been curated over a lifetime of beautiful experiences. No matching sets. No rules."
+  },
+  Transitional: {
+    tagline: "Your home should feel balanced — classic enough to feel timeless, current enough to feel fresh and alive.",
+    desc: "You're drawn to spaces that honour traditional comfort without feeling formal, and embrace clean modern lines without feeling cold. Warm neutrals, quality materials, and thoughtful layering are your foundation."
+  }
+};
+var current = 0;
+var answers = new Array(questions.length).fill(null);
+var upsellClicked = false;
+
+function render() {
+  var q = questions[current];
+  document.getElementById('qlabel').textContent = 'Question ' + (current + 1) + ' of ' + questions.length;
+  document.getElementById('qtext').textContent = q.text;
+  document.getElementById('prog').style.width = ((current / questions.length) * 100) + '%';
+  var opts = document.getElementById('options');
+  opts.innerHTML = '';
+  q.options.forEach(function(o, i) {
+    var div = document.createElement('div');
+    div.className = 'option' + (answers[current] === i ? ' selected' : '');
+    div.innerHTML = '<div class="option-letter">' + o.letter + '</div><div class="option-text">' + o.text + '</div>';
+    div.onclick = function() { selectOption(i); };
+    opts.appendChild(div);
+  });
+  document.getElementById('prevBtn').style.visibility = current === 0 ? 'hidden' : 'visible';
+  document.getElementById('nextBtn').textContent = current === questions.length - 1 ? 'See my style →' : 'Next →';
+  document.getElementById('nextBtn').disabled = answers[current] === null;
+}
+
+function selectOption(i) {
+  answers[current] = i;
+  document.querySelectorAll('.option').forEach(function(el, idx) {
+    el.classList.toggle('selected', idx === i);
+  });
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQ() {
+  if (current < questions.length - 1) { current++; render(); }
+  else { showResult(); }
+}
+
+function prevQ() {
+  if (current > 0) { current--; render(); }
+}
+
+function trackUpsellClick() {
+  upsellClicked = true;
+}
+
+function showResult() {
+  var scores = { Traditional: 0, Scandinavian: 0, Modern: 0, "Boho/Eclectic": 0, Transitional: 0 };
+  answers.forEach(function(ans, qi) {
+    if (ans !== null) { scores[questions[qi].options[ans].style]++; }
+  });
+  var sorted = Object.entries(scores).sort(function(a,b){ return b[1]-a[1]; });
+  var winner = sorted[0][0];
+  var data = styleData[winner];
+  var total = questions.length;
+
+  document.getElementById('rStyle').textContent = winner.toUpperCase();
+  document.getElementById('rTagline').textContent = data.tagline;
+  document.getElementById('rDesc').textContent = data.desc;
+
+  var bars = document.getElementById('scoreBars');
+  bars.innerHTML = '';
+  Object.entries(scores).forEach(function(entry) {
+    var name = entry[0]; var score = entry[1];
+    var row = document.createElement('div');
+    row.className = 'score-row';
+    row.innerHTML = '<div class="score-name">' + name + '</div><div class="score-track"><div class="score-fill" id="fill-' + name.replace('/','').replace(/ /g,'') + '" style="width:0%"></div></div><div class="score-num">' + score + '</div>';
+    bars.appendChild(row);
+    setTimeout(function() {
+      var el = document.getElementById('fill-' + name.replace('/','').replace(/ /g,''));
+      if (el) el.style.width = Math.round((score/total)*100) + '%';
+    }, 100);
+  });
+
+  var fbText = encodeURIComponent('I just discovered my interior design style — I\'m a ' + winner + '! Find out yours at ldesigns.ca #interiordesign #ldesignsinteriors');
+  document.getElementById('fbShareBtn').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('https://www.ldesigns.ca') + '&quote=' + fbText;
+
+  document.getElementById('prog').style.width = '100%';
+  document.getElementById('qscreen').style.display = 'none';
+  document.getElementById('rscreen').style.display = 'block';
+  window.scrollTo(0, 0);
+  startExitIntent();
+
+  var delays = [100, 300, 600, 1000, 1500, 2500];
+  delays.forEach(function(d) { setTimeout(reportHeight, d); });
+}
+
+// ============================================================
+// FLODESK — direct API submit, no external scripts needed
+// ============================================================
+function submitToFlodesk() {
+  var name = document.getElementById('fd-first-name').value.trim();
+  var email = document.getElementById('fd-email').value.trim();
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var errorEl = document.getElementById('fd-error');
+  var successEl = document.getElementById('fd-success');
+  var btn = document.getElementById('fd-submit');
+
+  errorEl.style.display = 'none';
+
+  if (!emailPattern.test(email)) {
+    errorEl.textContent = 'Please enter a valid email address.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  fetch('https://api.flodesk.com/v1/subscribers', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'User-Agent': 'LDesigns Quiz (ldesigns.ca)'
+    },
+    body: JSON.stringify({
+      email: email,
+      first_name: name,
+      segment_ids: ['6a45551ee6a0a745ba88724d']
+    })
+  })
+  .then(function(res) {
+    if (res.ok || res.status === 200 || res.status === 201) {
+      document.getElementById('flodesk-form-wrap').querySelectorAll('input, button').forEach(function(el) { el.style.display = 'none'; });
+      successEl.style.display = 'block';
+      setTimeout(reportHeight, 200);
+    } else {
+      return res.json().then(function(data) { throw new Error(data.message || 'Submission failed'); });
+    }
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    btn.textContent = 'Get the Free Guide';
+    errorEl.textContent = 'Something went wrong — please try again.';
+    errorEl.style.display = 'block';
+    console.warn('Flodesk error:', err);
+  });
+}
+
+function retake() {
+  current = 0;
+  answers = new Array(questions.length).fill(null);
+  upsellClicked = false;
+  document.getElementById('qscreen').style.display = 'block';
+  document.getElementById('rscreen').style.display = 'none';
+  // Reset form
+  document.getElementById('fd-first-name').value = '';
+  document.getElementById('fd-email').value = '';
+  document.getElementById('fd-submit').disabled = false;
+  document.getElementById('fd-submit').textContent = 'Get the Free Guide';
+  document.getElementById('fd-error').style.display = 'none';
+  document.getElementById('fd-success').style.display = 'none';
+  document.getElementById('flodesk-form-wrap').querySelectorAll('input, button').forEach(function(el) { el.style.display = ''; });
+  render();
+}
+
+render();
+</script>
+<script>
+  var exitShown = false;
+  function showExitPopup() {
+    var rscreen = document.getElementById('rscreen');
+    if (rscreen && rscreen.style.display !== 'none') return;
+    if (!exitShown) {
+      window.parent.postMessage({ type: 'showExitPopup' }, '*');
+      exitShown = true;
+    }
+  }
+  function startExitIntent() {
+    document.addEventListener('mouseleave', function(e) {
+      if (e.clientY < 50) showExitPopup();
+    });
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden') showExitPopup();
+    });
+    setTimeout(showExitPopup, 20000);
+  }
+  function reportHeight() {
+    var wrap = document.querySelector('.quiz-wrap');
+    var height = Math.ceil(wrap.offsetTop + wrap.offsetHeight + 32);
+    window.parent.postMessage({ type: 'setHeight', height: height }, '*');
+  }
+  window.addEventListener('load', function() {
+    reportHeight();
+    setTimeout(reportHeight, 300);
+    setTimeout(reportHeight, 800);
+  });
+  var observer = new MutationObserver(function() {
+    setTimeout(reportHeight, 50);
+    setTimeout(reportHeight, 300);
+    setTimeout(reportHeight, 800);
+    setTimeout(reportHeight, 1500);
+  });
+  observer.observe(document.querySelector('.quiz-wrap'), { childList: true, subtree: true });
+  document.addEventListener('click', function() {
+    setTimeout(reportHeight, 100);
+    setTimeout(reportHeight, 600);
+    setTimeout(reportHeight, 1200);
+  });
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(reportHeight, 150);
+  });
+</script>
+</body>
+</html>
