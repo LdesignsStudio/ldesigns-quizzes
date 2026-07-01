@@ -63,11 +63,15 @@
   .upsell a.upsell-btn:hover { background: #6a5a4a; }
   .upsell-nudge { font-size: 14px; color: #999; font-family: 'Raleway', Arial, sans-serif; font-style: italic; margin-top: 0.75rem; line-height: 1.4; }
   /* Flodesk gate */
-  .flodesk-gate { border: 2px solid #7a6a5a; border-radius: 8px; margin-bottom: 1.25rem; background: #faf8f6; padding: 2rem; text-align: left; }
+  .flodesk-gate { border: 2px solid #7a6a5a; border-radius: 8px; margin-bottom: 1.25rem; background: #faf8f6; overflow: hidden; }
+  .flodesk-gate-inner { display: flex; align-items: stretch; }
+  .flodesk-gate-image { width: 40%; flex-shrink: 0; }
+  .flodesk-gate-image img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .flodesk-gate-content { flex: 1; padding: 2rem; text-align: left; }
   .flodesk-gate-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
   .flodesk-gate h3 { font-size: 22px; font-weight: 500; color: #2c2c2c; margin-bottom: 0.5rem; font-family: 'Playfair Display', Georgia, serif; }
   .flodesk-gate p { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 1.25rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
-  .flodesk-gate input { width: 100%; padding: 11px 14px; margin-bottom: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: 'Raleway', Arial, sans-serif; }
+  .flodesk-gate input { width: 100%; padding: 11px 14px; margin-bottom: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: 'Raleway', Arial, sans-serif; box-sizing: border-box; }
   .flodesk-gate input:focus { outline: none; border-color: #7a6a5a; }
   .flodesk-gate .gate-submit { display: inline-block; padding: 11px 28px; background: #3c2e22; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; }
   .flodesk-gate .gate-submit:hover { background: #5a4a3a; }
@@ -91,6 +95,9 @@
     .upsell-inner { flex-direction: column; }
     .upsell-image { width: 100%; height: 200px; }
     .upsell-content { padding: 1.25rem; text-align: center; }
+    .flodesk-gate-inner { flex-direction: column; }
+    .flodesk-gate-image { width: 100%; height: 200px; }
+    .flodesk-gate-content { padding: 1.25rem; }
     body { padding: 0 30px 0.5rem; }
     .quiz-header h1 { font-size: 22px; }
     .quiz-header p { font-size: 16px; }
@@ -165,16 +172,23 @@
 
       <!-- FLODESK: Email capture for free 10-tip guide -->
       <div class="flodesk-gate">
-        <div class="flodesk-gate-eyebrow">Free guide</div>
-        <h3>10 Things Your Decorator Knows That You Don't</h3>
-        <p>Insider design rules from 18 years of working with GTA homeowners — rug sizing, paint undertones, lighting placement, and more. Enter your email and it's yours, free.</p>
-        <div id="flodesk-form-wrap">
-          <input type="text" id="fd-first-name" placeholder="First name" autocomplete="given-name">
-          <input type="email" id="fd-email" placeholder="Email address" autocomplete="email">
-          <button class="gate-submit" id="fd-submit" onclick="submitToFlodesk()">Get the Free Guide</button>
-          <div class="gate-error" id="fd-error"></div>
-          <div class="gate-success" id="fd-success">You're in! Check your inbox for your free guide.</div>
-          <p class="gate-privacy">By submitting, you agree to receive your guide and occasional design tips from Ldesigns Interiors. See our <a href="https://www.ldesigns.ca/privacy" target="_blank">Privacy Policy</a>.</p>
+        <div class="flodesk-gate-inner">
+          <div class="flodesk-gate-image">
+            <img src="https://static.wixstatic.com/media/ae662e_365a1ba9f40e443fb49dc1a7367d8355~mv2.png" alt="10 Things Your Decorator Knows That You Don't" onload="setTimeout(reportHeight,100);">
+          </div>
+          <div class="flodesk-gate-content">
+            <div class="flodesk-gate-eyebrow">Free guide</div>
+            <h3>10 Things Your Decorator Knows That You Don't</h3>
+            <p>Insider design rules from 18 years of working with GTA homeowners — rug sizing, paint undertones, lighting placement, and more. Enter your email and it's yours, free.</p>
+            <div id="flodesk-form-wrap">
+              <input type="text" id="fd-first-name" placeholder="First name" autocomplete="given-name">
+              <input type="email" id="fd-email" placeholder="Email address" autocomplete="email">
+              <button class="gate-submit" id="fd-submit" onclick="submitToFlodesk()">Get the Free Guide</button>
+              <div class="gate-error" id="fd-error"></div>
+              <div class="gate-success" id="fd-success">You're in! Check your inbox for your free guide.</div>
+              <p class="gate-privacy">By submitting, you agree to receive your guide and occasional design tips from Ldesigns Interiors. See our <a href="https://www.ldesigns.ca/privacy" target="_blank">Privacy Policy</a>.</p>
+            </div>
+          </div>
         </div>
       </div>
 
