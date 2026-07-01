@@ -21,7 +21,8 @@
   .header-logo { display: inline-block; margin-bottom: 0.5rem; }
   .header-logo img { height: 40px; width: auto; }
   .logo-fallback { font-size: 16px; font-weight: 700; letter-spacing: 4px; color: #5a4a3a; font-family: 'Raleway', Arial, sans-serif; }
-  .scroll-hint { font-size: 13px; color: #8a7a6a; font-family: 'Raleway', Arial, sans-serif; margin-top: 0.75rem; font-style: italic; letter-spacing: 0.5px; }
+  .scroll-hint { font-size: 26px; color: #8a7a6a; font-family: 'Raleway', Arial, sans-serif; margin-top: 0.75rem; font-style: italic; letter-spacing: 0.5px; line-height: 1.6; }
+  .scroll-hint .arrow { font-size: 32px; display: block; margin-top: 4px; font-style: normal; }
   /* Progress */
   .progress-bar { background: #c8bdb4; height: 4px; }
   .progress-fill { background: #5a4a3a; height: 4px; transition: width 0.4s ease; }
@@ -165,7 +166,7 @@
       <div class="result-primary" id="rPrimary">—</div>
       <div class="result-secondary-label" id="rSecondaryLabel" style="display:none;">Your secondary style</div>
       <div class="result-secondary" id="rSecondary"></div>
-      <div class="scroll-hint">Scroll down for your full style description and free designer guide ↓</div>
+      <div class="scroll-hint">Scroll down for your full style description and free designer guide<span class="arrow">↓</span></div>
     </div>
     <div class="result-body">
       <div class="hybrid-badge" id="hybridBadge">
@@ -174,6 +175,7 @@
         <div class="hybrid-desc" id="hybridDesc"></div>
       </div>
       <div class="result-tagline" id="rTagline"></div>
+      <div class="scroll-hint">Scroll down for your full style description and free designer guide<span class="arrow">↓</span></div>
       <div class="result-desc" id="rDesc"></div>
       <div class="score-section">
         <h3>Your complete style breakdown</h3>
@@ -197,8 +199,7 @@
             <p class="upsell-sub">Insider design rules from 18 years of working with GTA homeowners — rug sizing, paint undertones, lighting placement, and more. Enter your email and it's yours, free.</p>
             <!-- Flodesk inline form -->
             <div class="flodesk-wrap">
-              <div class="flodesk-eyebrow">Your free guide is one step away</div>
-              <p class="flodesk-intro">Enter your email below and we'll send it straight to your inbox.</p>
+              <div class="flodesk-eyebrow">Get the free guide</div>
               <div id="flodesk-form">
                 <input type="text" id="fd-first-name" placeholder="First name" autocomplete="given-name" style="width:100%;padding:11px 14px;margin-bottom:0.75rem;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:'Raleway',Arial,sans-serif;box-sizing:border-box;">
                 <input type="email" id="fd-email" placeholder="Email address" autocomplete="email" style="width:100%;padding:11px 14px;margin-bottom:0.75rem;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:'Raleway',Arial,sans-serif;box-sizing:border-box;">
