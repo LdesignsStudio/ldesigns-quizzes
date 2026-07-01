@@ -75,7 +75,7 @@
   .flodesk-gate-content { flex: 1; padding: 2rem; text-align: left; }
   .flodesk-gate-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
   .flodesk-gate h3 { font-size: 22px; font-weight: 500; color: #2c2c2c; margin-bottom: 0.5rem; font-family: 'Playfair Display', Georgia, serif; }
-  .flodesk-gate p { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 1.25rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
+  .flodesk-gate p { font-size: 15px; color: #666; line-height: 1.7; margin-bottom: 1.25rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
   .flodesk-gate input { width: 100%; padding: 11px 14px; margin-bottom: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: 'Raleway', Arial, sans-serif; box-sizing: border-box; }
   .flodesk-gate input:focus { outline: none; border-color: #7a6a5a; }
   .flodesk-gate .gate-submit { display: inline-block; padding: 11px 28px; background: #3c2e22; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; }
@@ -155,7 +155,11 @@
     </div>
     <div class="result-body">
       <div class="result-tagline" id="rTagline"></div>
-      <div class="scroll-hint">Scroll down for your full style description and a free designer guide<span class="arrow">↓</span></div>
+      <div class="result-desc" id="rDesc"></div>
+      <div class="score-section">
+        <h3>Your style breakdown</h3>
+        <div class="score-bars" id="scoreBars"></div>
+      </div>
 
       <!-- UPSELL: Full 20Q quiz -->
       <div class="upsell">
@@ -180,12 +184,9 @@
         </div>
       </div>
 
-      <!-- FLODESK: Email capture for free 10-tip guide -->
+      <!-- FLODESK: Email capture for free 10-tip guide — image on RIGHT -->
       <div class="flodesk-gate">
         <div class="flodesk-gate-inner">
-          <div class="flodesk-gate-image">
-            <img src="https://static.wixstatic.com/media/ae662e_365a1ba9f40e443fb49dc1a7367d8355~mv2.png" alt="10 Things Your Decorator Knows That You Don't" onload="setTimeout(reportHeight,100);">
-          </div>
           <div class="flodesk-gate-content">
             <div class="flodesk-gate-eyebrow">Free guide</div>
             <h3>10 Things Your Decorator Knows That You Don't</h3>
@@ -199,14 +200,12 @@
               <p class="gate-privacy">By submitting, you agree to receive your guide and occasional design tips from Ldesigns Interiors. See our <a href="https://www.ldesigns.ca/privacy" target="_blank">Privacy Policy</a>.</p>
             </div>
           </div>
+          <div class="flodesk-gate-image">
+            <img src="https://static.wixstatic.com/media/ae662e_365a1ba9f40e443fb49dc1a7367d8355~mv2.png" alt="10 Things Your Decorator Knows That You Don't" onload="setTimeout(reportHeight,100);">
+          </div>
         </div>
       </div>
 
-      <div class="result-desc" id="rDesc"></div>
-      <div class="score-section">
-        <h3>Your style breakdown</h3>
-        <div class="score-bars" id="scoreBars"></div>
-      </div>
       <div class="social-section">
         <h3>Share your result</h3>
         <a id="fbShareBtn" href="#" target="_blank" class="btn-fb">Share on Facebook</a>
