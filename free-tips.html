@@ -10,8 +10,8 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: auto; overflow: visible; }
-  body { font-family: 'Raleway', Arial, sans-serif; background: #f5f1ed; display: block; padding: 0 150px 0.5rem; }
-  .page-wrap { max-width: 100%; width: 100%; }
+  body { font-family: 'Raleway', Arial, sans-serif; background: #f5f1ed; display: block; padding: 0 150px 0; }
+  .page-wrap { max-width: 100%; width: 100%; padding-bottom: 0; }
   .page-header { background: #ffffff; padding: 1.25rem 2rem; text-align: center; border-bottom: 1px solid #e6ded6; }
   .page-header img { max-width: 160px; height: auto; }
   .hero-image { width: 100%; height: 320px; object-fit: cover; object-position: center 40%; display: block; }
@@ -111,25 +111,7 @@
     </div>
   </div>
 
-  <div class="gate-section" id="gateSection">
-    <div class="gate-eyebrow-main">Get Your Free Copy</div>
-    <h2>Download the Guide</h2>
-    <p class="gate-intro-main">Enter your name and email below — we'll send the guide straight to your inbox.</p>
-
-    <form class="gate-form" id="gateForm" onsubmit="return false;">
-      <input type="text" id="gateName" placeholder="First name" autocomplete="given-name">
-      <input type="email" id="gateEmail" placeholder="Email address" autocomplete="email">
-      <button type="button" class="gate-submit" id="gateSubmitBtn" onclick="submitDownloadGate()">Send Me the Free Guide</button>
-      <div class="gate-error" id="gateError">Please enter a valid email address.</div>
-    </form>
-    <p class="gate-privacy" id="gatePrivacy">By submitting, you agree to receive your guide and occasional design tips &amp; offers from Ldesigns Interiors. See our <a href="https://www.ldesigns.ca/privacy" target="_blank">Privacy Policy</a>.</p>
-
-    <div class="gate-success" id="gateSuccess">
-      <div class="check">✓</div>
-      <h3>Check your inbox!</h3>
-      <p>Your guide is on its way to your email. If you don't see it within a few minutes, check your spam or promotions folder.</p>
-    </div>
-  </div>
+  <!-- FORM PLACEHOLDER — add your Wix native form here -->
 
   <div class="quiz-nudge">
     <div class="eyebrow">While You're Here</div>
@@ -154,9 +136,7 @@
     </div>
   </div>
 
-  <div class="footer-note">
-    <p>Ldesigns Interiors &middot; Based in Toronto &amp; serving the GTA &middot; <a href="https://www.ldesigns.ca" target="_blank">ldesigns.ca</a></p>
-  </div>
+
 
 </div>
 
@@ -165,52 +145,7 @@
 // FLODESK — direct API submit via no-cors
 // Hosted on GitHub Pages so no Wix iframe sandbox restrictions
 // ============================================================
-var TIPS_GUIDE_PDF_URL = 'https://ae662ef5-00c1-4920-bb18-c1fac47ae38e.usrfiles.com/ugd/ae662e_45ec0990df484d1eaa998f56256bc439.pdf';
-
-function submitDownloadGate() {
-  var name = document.getElementById('gateName').value.trim();
-  var email = document.getElementById('gateEmail').value.trim();
-  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!emailPattern.test(email)) {
-    document.getElementById('gateError').style.display = 'block';
-    return;
-  }
-
-  document.getElementById('gateError').style.display = 'none';
-  var btn = document.getElementById('gateSubmitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-
-  fetch('https://api.flodesk.com/v1/subscribers', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email: email,
-      first_name: name,
-      segment_ids: ['6a45551ee6a0a745ba88724d']
-    })
-  })
-  .then(function(res) {
-    if (res.ok || res.status === 200 || res.status === 201) {
-      document.getElementById('gateForm').style.display = 'none';
-      document.getElementById('gatePrivacy').style.display = 'none';
-      document.getElementById('gateSuccess').style.display = 'block';
-      setTimeout(reportHeight, 200);
-    } else {
-      throw new Error('Submission failed');
-    }
-  })
-  .catch(function(err) {
-    btn.disabled = false;
-    btn.textContent = 'Send Me the Free Guide';
-    document.getElementById('gateError').textContent = 'Something went wrong — please try again.';
-    document.getElementById('gateError').style.display = 'block';
-    console.warn('Flodesk error:', err);
-  });
-}
+// Form handled by Wix native form
 
 // ============================================================
 // IFRAME HEIGHT REPORTING
