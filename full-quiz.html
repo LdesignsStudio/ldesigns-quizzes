@@ -12,7 +12,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: auto; overflow: visible; }
   body { font-family: 'Raleway', Arial, sans-serif; background: #f5f1ed; display: block; padding: 0 150px 0.5rem; }
-  .quiz-wrap { max-width: 100%; width: 100%; min-height: 2800px; }
+  .quiz-wrap { max-width: 100%; width: 100%; }
   /* Header */
   .quiz-header { background: rgba(228, 220, 212, 0.35); padding: 1rem 2rem; text-align: center; }
   .quiz-header h1 { font-size: clamp(18px, 4vw, 32px); font-weight: 400; color: #3c3020; margin-top: 0.25rem; letter-spacing: 0.5px; font-family: 'Playfair Display', Georgia, serif; }
@@ -150,7 +150,7 @@
     <h1>Interior Design Style Quiz — Full Edition</h1>
     <p>You already know you have good taste. This gives you the language.</p>
   </div>
-  <img class="quiz-hero-image" src="https://static.wixstatic.com/media/ae662e_4179535f9c354199a2450533b7084024~mv2_d_3000_2000_s_2.jpg" alt="L|Designs Interiors" onload="setTimeout(reportHeight,100);">
+  <img class="quiz-hero-image" src="https://static.wixstatic.com/media/ae662e_4179535f9c354199a2450533b7084024~mv2_d_3000_2000_s_2.jpg" alt="L|Designs Interiors">
   <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
   <div id="sectionHeader" style="display:none;" class="section-header">
     <h2 id="sectionTitle"></h2>
@@ -187,7 +187,7 @@
       <div class="upsell" id="tipsUpsell" style="display:none;">
         <div class="upsell-inner">
           <div class="upsell-image">
-            <img src="https://static.wixstatic.com/media/ae662e_c6fa6bd1bec44713be1b51db88e14613~mv2.jpg" alt="The Interior Designer's Rulebook" onload="setTimeout(reportHeight,100);">
+            <img src="https://static.wixstatic.com/media/ae662e_c6fa6bd1bec44713be1b51db88e14613~mv2.jpg" alt="The Interior Designer's Rulebook">
           </div>
           <div class="upsell-content">
             <div class="upsell-eyebrow">Now that you know your style</div>
@@ -351,7 +351,7 @@ function nextQ() {
     current++;
     render();
     window.scrollTo(0, 0);
-    window.parent.postMessage({ type: 'scrollToTop' }, '*');
+    // no iframe - scroll handled natively
   } else { showResult(); }
 }
 function prevQ() {
@@ -359,7 +359,7 @@ function prevQ() {
     current--;
     render();
     window.scrollTo(0, 0);
-    window.parent.postMessage({ type: 'scrollToTop' }, '*');
+    // no iframe - scroll handled natively
   }
 }
 function showResult() {
@@ -411,8 +411,7 @@ function showResult() {
   document.getElementById('qscreen').style.display = 'none';
   document.getElementById('rscreen').style.display = 'block';
   window.scrollTo(0,0);
-  var delays = [100, 300, 600, 1000, 1500, 2500];
-  delays.forEach(function(d) { setTimeout(reportHeight, d); });
+
 }
 function retake() {
   current = 0;
@@ -427,35 +426,6 @@ function retake() {
 }
 render();
 </script>
-<script>
-function reportHeight() {
-  var height = Math.max(
-    document.documentElement.offsetHeight,
-    document.documentElement.scrollHeight,
-    document.body.offsetHeight,
-    document.body.scrollHeight
-  ) + 150;
-  window.parent.postMessage({ type: 'setHeight', height: height }, '*');
-}
-if (window.ResizeObserver) {
-  var ro = new ResizeObserver(function() { reportHeight(); });
-  ro.observe(document.body);
-  ro.observe(document.querySelector('.quiz-wrap'));
-}
-var mo = new MutationObserver(function() {
-  reportHeight();
-  setTimeout(reportHeight, 300);
-  setTimeout(reportHeight, 800);
-});
-mo.observe(document.body, { childList: true, subtree: true, attributes: true });
-window.addEventListener('load', function() {
-  reportHeight();
-  setTimeout(reportHeight, 500);
-  setTimeout(reportHeight, 1500);
-});
-document.addEventListener('click', function() {
-  [100, 400, 800, 1500, 2500].forEach(function(d) { setTimeout(reportHeight, d); });
-});
-</script>
+
 </body>
 </html>
