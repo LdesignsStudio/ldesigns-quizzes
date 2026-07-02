@@ -139,7 +139,7 @@
     <h1>Interior Design Style Quiz</h1>
     <p>Your home should feel like you.</p>
   </div>
-  <img class="quiz-hero-image" src="https://static.wixstatic.com/media/ae662e_4179535f9c354199a2450533b7084024~mv2_d_3000_2000_s_2.jpg" alt="Beautiful interior by L|Designs Interiors" onload="setTimeout(reportHeight,100);">
+  <img class="quiz-hero-image" src="https://static.wixstatic.com/media/ae662e_4179535f9c354199a2450533b7084024~mv2_d_3000_2000_s_2.jpg" alt="Beautiful interior by L|Designs Interiors">
   <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
   <div class="question-screen" id="qscreen">
     <div class="q-label" id="qlabel">Question 1 of 6</div>
@@ -166,7 +166,7 @@
       <div class="upsell">
         <div class="upsell-inner">
           <div class="upsell-image">
-            <img src="https://static.wixstatic.com/media/ae662e_4179535f9c354199a2450533b7084024~mv2_d_3000_2000_s_2.jpg" alt="Beautiful interior by L|Designs Interiors" onload="setTimeout(reportHeight,100);setTimeout(reportHeight,500);">
+            <img src="https://static.wixstatic.com/media/ae662e_4179535f9c354199a2450533b7084024~mv2_d_3000_2000_s_2.jpg" alt="Beautiful interior by L|Designs Interiors">
           </div>
           <div class="upsell-content">
             <div class="upsell-eyebrow">This is just the beginning.</div>
@@ -195,7 +195,7 @@
             <a href="https://www.ldesigns.ca/free-tips-l" target="_self" class="gate-btn">Get the Free Guide →</a>
           </div>
           <div class="flodesk-gate-image">
-            <img src="https://static.wixstatic.com/media/ae662e_365a1ba9f40e443fb49dc1a7367d8355~mv2.png" alt="10 Things Your Decorator Knows That You Don't" onload="setTimeout(reportHeight,100);">
+            <img src="https://static.wixstatic.com/media/ae662e_365a1ba9f40e443fb49dc1a7367d8355~mv2.png" alt="10 Things Your Decorator Knows That You Don't">
           </div>
         </div>
       </div>
@@ -333,7 +333,6 @@ function nextQ() {
     current++;
     render();
     window.scrollTo(0, 0);
-    window.parent.postMessage({ type: 'scrollToTop' }, '*');
   } else { showResult(); }
 }
 
@@ -342,7 +341,6 @@ function prevQ() {
     current--;
     render();
     window.scrollTo(0, 0);
-    window.parent.postMessage({ type: 'scrollToTop' }, '*');
   }
 }
 
@@ -387,8 +385,7 @@ function showResult() {
   window.scrollTo(0, 0);
   startExitIntent();
 
-  var delays = [100, 300, 600, 1000, 1500, 2500];
-  delays.forEach(function(d) { setTimeout(reportHeight, d); });
+
 }
 
 
@@ -409,7 +406,7 @@ render();
     var rscreen = document.getElementById('rscreen');
     if (rscreen && rscreen.style.display !== 'none') return;
     if (!exitShown) {
-      window.parent.postMessage({ type: 'showExitPopup' }, '*');
+      // no iframe
       exitShown = true;
     }
   }
@@ -422,33 +419,11 @@ render();
     });
     setTimeout(showExitPopup, 20000);
   }
-  function reportHeight() {
-    var wrap = document.querySelector('.quiz-wrap');
-    var height = Math.ceil(wrap.offsetTop + wrap.offsetHeight + 32);
-    window.parent.postMessage({ type: 'setHeight', height: height }, '*');
+  , '*');
   }
-  window.addEventListener('load', function() {
-    reportHeight();
-    setTimeout(reportHeight, 300);
-    setTimeout(reportHeight, 800);
-  });
-  var observer = new MutationObserver(function() {
-    setTimeout(reportHeight, 50);
-    setTimeout(reportHeight, 300);
-    setTimeout(reportHeight, 800);
-    setTimeout(reportHeight, 1500);
-  });
-  observer.observe(document.querySelector('.quiz-wrap'), { childList: true, subtree: true });
   document.addEventListener('click', function() {
-    setTimeout(reportHeight, 100);
-    setTimeout(reportHeight, 600);
-    setTimeout(reportHeight, 1200);
+
   });
-  var resizeTimer;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(reportHeight, 150);
-  });
-</script>
+  </script>
 </body>
 </html>
