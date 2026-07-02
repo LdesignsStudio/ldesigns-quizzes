@@ -3,183 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>10 Things Your Decorator Knows That You Don't | L|Designs Interiors</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: auto; overflow: visible; }
-  body { font-family: 'Raleway', Arial, sans-serif; background: #f5f1ed; display: block; padding: 0 150px 0; }
-  .page-wrap { max-width: 100%; width: 100%; padding-bottom: 0; }
-  .page-header { background: #ffffff; padding: 1.25rem 2rem; text-align: center; border-bottom: 1px solid #e6ded6; }
-  .page-header img { max-width: 160px; height: auto; }
-  .hero-image { width: 100%; height: 320px; object-fit: cover; object-position: center 40%; display: block; }
-  .hero-section { background: rgba(228, 220, 212, 0.35); padding: 3rem 2rem; text-align: center; }
-  .hero-eyebrow { font-size: 22px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.75rem; }
-  .hero-section h1 { font-size: clamp(26px, 5vw, 48px); font-weight: 500; color: #3c3020; font-family: 'Playfair Display', Georgia, serif; line-height: 1.25; margin-bottom: 0.75rem; }
-  .hero-section p.hero-sub { font-size: clamp(15px, 2.5vw, 20px); color: #7a6a5a; font-style: italic; font-family: 'Playfair Display', Georgia, serif; max-width: 640px; margin: 0 auto; line-height: 1.6; }
-  .benefits-section { background: #fff; border: 0.5px solid #e0d8d0; padding: 2.5rem 2rem; }
-  .benefits-section h2 { font-size: 18px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; text-align: center; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 1.75rem; }
-  .benefits-list { max-width: 640px; margin: 0 auto; }
-  .benefit-item { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid #f0eae4; }
-  .benefit-item:last-child { border-bottom: none; }
-  .benefit-num { width: 30px; height: 30px; border-radius: 50%; background: #f5f1ed; border: 1.5px solid #c0b4a8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #7a6a5a; flex-shrink: 0; font-family: 'Raleway', Arial, sans-serif; }
-  .benefit-text { font-size: 15px; color: #3c3c3c; line-height: 1.6; padding-top: 4px; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
-  .benefit-text strong { font-weight: 700; color: #2c2c2c; }
-  .gate-section { background: #faf8f6; border: 2px solid #7a6a5a; border-radius: 8px; margin: 2rem 0; padding: 2.5rem 2rem; text-align: center; }
-  .gate-section .gate-eyebrow-main { font-size: 15px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.75rem; }
-  .gate-section h2 { font-size: clamp(20px, 3.5vw, 28px); font-weight: 500; color: #2c2c2c; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.75rem; }
-  .gate-section p.gate-intro-main { font-size: 14px; color: #666; line-height: 1.7; margin-bottom: 1.75rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; max-width: 500px; margin-left: auto; margin-right: auto; }
-  .gate-form { max-width: 420px; margin: 0 auto; text-align: left; }
-  .gate-form input { width: 100%; padding: 12px 16px; margin-bottom: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: 'Raleway', Arial, sans-serif; }
-  .gate-form input:focus { outline: none; border-color: #7a6a5a; }
-  .gate-form button.gate-submit { display: block; width: 100%; padding: 13px 28px; background: #3c2e22; color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; margin-top: 0.25rem; }
-  .gate-form button.gate-submit:hover { background: #5a4a3a; }
-  .gate-form button.gate-submit:disabled { opacity: 0.6; cursor: default; }
-  .gate-error { color: #b3261e; font-size: 12px; margin-top: 0.5rem; display: none; font-family: 'Raleway', Arial, sans-serif; text-align: center; }
-  .gate-privacy { font-size: 11px; color: #999; margin-top: 1.25rem; line-height: 1.6; font-family: 'Raleway', Arial, sans-serif; text-align: center; }
-  .gate-privacy a { color: #7a6a5a; }
-  .gate-success { display: none; text-align: center; }
-  .gate-success .check { font-size: 40px; color: #7a6a5a; margin-bottom: 0.5rem; }
-  .gate-success h3 { font-size: 20px; font-weight: 500; color: #2c2c2c; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.5rem; }
-  .gate-success p { font-size: 14px; color: #666; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; line-height: 1.6; }
-  .quiz-nudge { background: #7a6a5a; border-radius: 8px; padding: 2.5rem 2rem; text-align: center; margin-top: 1.5rem; }
-  .quiz-nudge .eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.8); font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.5rem; }
-  .quiz-nudge h3 { font-size: clamp(20px, 3vw, 28px); font-weight: 400; color: #fff; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.75rem; }
-  .quiz-nudge p { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 1.5rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; max-width: 540px; margin-left: auto; margin-right: auto; }
-  .quiz-nudge a { display: inline-block; padding: 12px 32px; background: #fff; color: #7a6a5a; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 700; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; }
-  .quiz-nudge a:hover { background: rgba(255,255,255,0.9); }
-  .faq-section { padding: 2.5rem 2rem; }
-  .faq-section h2 { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; text-align: center; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 1.75rem; }
-  .faq-item { max-width: 640px; margin: 0 auto 1.25rem; }
-  .faq-item h4 { font-size: 15px; font-weight: 600; color: #2c2c2c; margin-bottom: 0.35rem; font-family: 'Raleway', Arial, sans-serif; }
-  .faq-item p { font-size: 14px; color: #666; line-height: 1.7; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
-  .footer-note { text-align: center; padding: 1.5rem 2rem 1rem; border-top: 1px solid #f0eae4; }
-  .footer-note p { font-size: 12px; color: #999; font-family: 'Raleway', Arial, sans-serif; }
-  .footer-note a { color: #7a6a5a; text-decoration: none; }
-  @media (max-width: 1024px) { body { padding: 0 60px 0.5rem; } }
-  @media (max-width: 768px) {
-    body { padding: 0 30px 0.5rem; }
-    .hero-image { height: 220px; }
-    .hero-section, .benefits-section, .gate-section, .quiz-nudge, .faq-section { padding: 1.75rem 1.25rem; }
-  }
-  @media (max-width: 480px) {
-    body { padding: 0 12px 0.5rem; }
-    .page-header { padding: 1rem; }
-    .hero-image { height: 180px; }
-    .hero-section h1 { font-size: 22px; }
-  }
-</style>
+<title>If those tips resonated, here's 250+ more</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
-<div class="page-wrap">
+<body style="margin:0;padding:0;background-color:#f0ebe5;font-family:'Raleway',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f0ebe5;">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:#faf8f6;">
 
-  <div class="page-header">
-    <a href="https://www.ldesigns.ca" target="_blank">
-      <img src="https://static.wixstatic.com/shapes/ae662e_3bc16dcc035647298284204d8bd55f35.svg" alt="L|Designs Interiors">
-    </a>
-  </div>
+        <!-- HEADER -->
+        <tr>
+          <td align="center" style="background-color:#faf8f6;padding:36px 40px 24px;">
+            <img src="https://static.wixstatic.com/media/ae662e_6210c6126ef44532a3d3360b4821d9c6~mv2.png" alt="LDesigns Interiors" width="160" style="display:block;max-width:160px;">
+          </td>
+        </tr>
+        <tr><td style="padding:0 40px;"><div style="height:1px;background-color:#e0d8d0;"></div></td></tr>
 
-  <img class="hero-image" src="https://static.wixstatic.com/media/ae662e_e35f4421704f4d2dbf312e545ab9be96~mv2.jpg" alt="L|Designs Interiors" onload="setTimeout(reportHeight,100);">
+        <!-- HERO IMAGE -->
+        <tr>
+          <td style="padding:0;">
+            <img src="https://static.wixstatic.com/media/ae662e_c6fa6bd1bec44713be1b51db88e14613~mv2.jpg" alt="The Interior Designer's Rulebook" width="600" style="display:block;width:100%;max-width:600px;height:220px;object-fit:cover;object-position:center top;">
+          </td>
+        </tr>
 
-  <div class="hero-section">
-    <div class="hero-eyebrow">Free Guide</div>
-    <h1>10 Things Your Decorator Knows<br>That You Don't</h1>
-    <p class="hero-sub">Insider design rules from 18 years of working with GTA homeowners — rug sizing, paint undertones, lighting placement, and more. Yours free, no strings attached.</p>
-  </div>
+        <!-- PINK BAR -->
+        <tr>
+          <td style="background-color:#E9D9DE;padding:12px 40px;text-align:center;">
+            <p style="margin:0;font-family:'Raleway',Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#7a6a5a;">Now Available</p>
+          </td>
+        </tr>
 
-  <div class="benefits-section">
-    <h2>What's Inside the Guide</h2>
-    <div class="benefits-list">
-      <div class="benefit-item">
-        <div class="benefit-num">1</div>
-        <div class="benefit-text">The <strong>rug sizing formula</strong> most homeowners get wrong — and how it instantly makes a room feel bigger.</div>
-      </div>
-      <div class="benefit-item">
-        <div class="benefit-num">2</div>
-        <div class="benefit-text">How to choose a <strong>paint undertone</strong> that won't fight with your existing floors, trim, or furniture.</div>
-      </div>
-      <div class="benefit-item">
-        <div class="benefit-num">3</div>
-        <div class="benefit-text">The <strong>lighting layering trick</strong> designers use so a room never feels flat or harsh.</div>
-      </div>
-      <div class="benefit-item">
-        <div class="benefit-num">4</div>
-        <div class="benefit-text">Plus <strong>7 more</strong> practical, no-fluff tips you can use the moment you finish reading.</div>
-      </div>
-    </div>
-  </div>
+        <!-- CONTENT -->
+        <tr>
+          <td style="padding:44px 48px 36px;">
 
-  <!-- FORM PLACEHOLDER — add your Wix native form here -->
+            <h1 style="font-family:'Playfair Display',Georgia,serif;font-size:30px;font-weight:400;color:#3c2e22;margin:0 0 8px;line-height:1.3;text-align:center;">If those tips resonated, here's 250+ more</h1>
+            <p style="font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:400;font-style:italic;color:#7a6a5a;margin:0 0 28px;line-height:1.5;text-align:center;">The complete framework I use with every client</p>
 
-  <div class="quiz-nudge">
-    <div class="eyebrow">While You're Here</div>
-    <h3>What's Your Design Style?</h3>
-    <p>Take our free 20-question style quiz to discover your exact style profile, all 11 style archetypes, and any hybrid combinations that describe you.</p>
-    <a href="https://www.ldesigns.ca/style-quiz" target="_self">Take the Style Quiz — Free</a>
-  </div>
+            <div style="height:1px;background-color:#e0d8d0;margin:0 0 28px;"></div>
 
-  <div class="faq-section">
-    <h2>Quick Questions</h2>
-    <div class="faq-item">
-      <h4>Is this really free?</h4>
-      <p>Yes — completely free, no catch. We just ask for your name and email so we can send you the guide and keep you posted on future design tips and resources.</p>
-    </div>
-    <div class="faq-item">
-      <h4>Will I get spammed?</h4>
-      <p>No. You'll get your guide, occasional design tips, and updates from Ldesigns Interiors — nothing more. You can unsubscribe anytime.</p>
-    </div>
-    <div class="faq-item">
-      <h4>Who is this for?</h4>
-      <p>Homeowners in the GTA (or anywhere!) who want practical, designer-level guidance they can apply themselves — whether or not you ever hire a decorator.</p>
-    </div>
-  </div>
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:15px;font-weight:300;color:#5a4a3a;line-height:1.8;margin:0 0 16px;">Hi {{subscriber.first_name}},</p>
 
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:15px;font-weight:300;color:#5a4a3a;line-height:1.8;margin:0 0 16px;">Over the past week I've shared tips on scale, paint undertones, and lighting — three of the areas where I see the most confusion and the most costly mistakes.</p>
 
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:15px;font-weight:300;color:#5a4a3a;line-height:1.8;margin:0 0 24px;">If those were useful, I want to tell you about something I've been working on.</p>
 
-</div>
+            <!-- QUOTE BOX -->
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
+              <tr>
+                <td style="background-color:#E9D9DE;border-left:3px solid #c0a8b0;padding:20px 24px;">
+                  <p style="font-family:'Playfair Display',Georgia,serif;font-size:18px;font-style:italic;color:#3c2e22;margin:0;line-height:1.6;">"Good design shouldn't be gatekept. These are the same rules I use in every consultation — now in one place."</p>
+                </td>
+              </tr>
+            </table>
 
-<script>
-// ============================================================
-// FLODESK — direct API submit via no-cors
-// Hosted on GitHub Pages so no Wix iframe sandbox restrictions
-// ============================================================
-// Form handled by Wix native form
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:15px;font-weight:300;color:#5a4a3a;line-height:1.8;margin:0 0 24px;"><strong style="color:#3c2e22;">The Interior Designer's Rulebook</strong> is a 250+ tip PDF guide covering every major decision in a home — layout, paint, lighting, furniture sizing, kitchens, bathrooms, small spaces, renovations, budgeting, and whole-home cohesion.</p>
 
-// ============================================================
-// IFRAME HEIGHT REPORTING
-// ============================================================
-function reportHeight() {
-  var height = Math.max(
-    document.documentElement.offsetHeight,
-    document.documentElement.scrollHeight,
-    document.body.offsetHeight,
-    document.body.scrollHeight
-  ) + 20;
-  window.parent.postMessage({ type: 'setHeight', height: height }, '*');
-}
-if (window.ResizeObserver) {
-  var ro = new ResizeObserver(function() { reportHeight(); });
-  ro.observe(document.body);
-  ro.observe(document.querySelector('.page-wrap'));
-}
-window.addEventListener('load', function() {
-  reportHeight();
-  setTimeout(reportHeight, 500);
-  setTimeout(reportHeight, 1500);
-});
-var resizeTimer;
-window.addEventListener('resize', function() {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(reportHeight, 150);
-});
-if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(function() {
-    reportHeight();
-    setTimeout(reportHeight, 200);
-  });
-}
-</script>
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:15px;font-weight:500;color:#3c2e22;line-height:1.8;margin:0 0 16px;">What's inside:</p>
+
+            <!-- FEATURES -->
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0eae4;">
+                <p style="font-family:'Raleway',Arial,sans-serif;font-size:14px;font-weight:300;color:#5a4a3a;margin:0;">✦ &nbsp;12 complete sections covering every room</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0eae4;">
+                <p style="font-family:'Raleway',Arial,sans-serif;font-size:14px;font-weight:300;color:#5a4a3a;margin:0;">✦ &nbsp;Designer measurements quick reference page</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0eae4;">
+                <p style="font-family:'Raleway',Arial,sans-serif;font-size:14px;font-weight:300;color:#5a4a3a;margin:0;">✦ &nbsp;Common mistakes to avoid before any major purchase</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0eae4;">
+                <p style="font-family:'Raleway',Arial,sans-serif;font-size:14px;font-weight:300;color:#5a4a3a;margin:0;">✦ &nbsp;Spend vs save guidance so your budget goes where it matters</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;">
+                <p style="font-family:'Raleway',Arial,sans-serif;font-size:14px;font-weight:300;color:#5a4a3a;margin:0;">✦ &nbsp;Instant PDF download — yours to keep forever</p>
+              </td></tr>
+            </table>
+
+            <!-- PRICE + CTA -->
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 16px;background-color:#f5f1ed;border-radius:6px;">
+              <tr>
+                <td style="padding:20px 24px;text-align:center;">
+                  <p style="font-family:'Raleway',Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#7a6a5a;margin:0 0 4px;">One-time purchase</p>
+                  <p style="font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:500;color:#3c2e22;margin:0 0 16px;">$27 CAD</p>
+                  <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+                    <tr>
+                      <td style="background-color:#5a4a3a;border-radius:4px;">
+                        <a href="https://stan.store/ldesignsstudio/p/the-interior-designers-rulebook" style="display:inline-block;font-family:'Raleway',Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#ffffff;text-decoration:none;padding:14px 36px;">Get The Rulebook →</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:14px;font-weight:300;color:#7a6a5a;line-height:1.7;margin:0 0 32px;text-align:center;font-style:italic;">If you're decorating a room, planning a renovation, or just moved — this is the guide I wish every homeowner had before they started spending money.</p>
+
+            <div style="height:1px;background-color:#e0d8d0;margin:0 0 28px;"></div>
+
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:15px;font-weight:300;color:#5a4a3a;line-height:1.8;margin:0 0 12px;">Talk soon,</p>
+            <img src="https://static.wixstatic.com/media/ae662e_04eeba5e632e4fa3b1dbed0a164793e4~mv2.png" alt="Lenore" width="160" style="display:block;max-width:160px;margin:0 0 8px;transform:rotate(-4deg);transform-origin:left center;">
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#7a6a5a;margin:0 0 28px;">LDesigns Interiors</p>
+
+          </td>
+        </tr>
+
+        <!-- FOOTER -->
+        <tr>
+          <td style="background-color:#000000;padding:28px 40px;text-align:center;">
+            <img src="https://static.wixstatic.com/media/ae662e_ec527f6c40b24f778ac86428bf035836~mv2.png" alt="LDI" width="40" style="display:block;margin:0 auto 16px;filter:brightness(0) invert(1);">
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:#ffffff;margin:0 0 8px;">LDesigns Interiors &nbsp;|&nbsp; Toronto, GTA</p>
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:11px;font-weight:300;color:#ffffff;margin:0 0 16px;">
+              <a href="https://www.instagram.com/ldesignsinteriors" style="color:#ffffff;text-decoration:none;">Instagram</a>
+              &nbsp;&nbsp;|&nbsp;&nbsp;
+              <a href="https://www.ldesigns.ca" style="color:#ffffff;text-decoration:none;">Website</a>
+            </p>
+            <p style="font-family:'Raleway',Arial,sans-serif;font-size:10px;font-weight:300;color:#ffffff;margin:0;">
+              You're receiving this because you signed up for the LDI free guide or style quiz.<br>
+              <a href="{{unsubscribe_link}}" style="color:#ffffff;text-decoration:underline;">Unsubscribe</a>
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
 </body>
 </html>
