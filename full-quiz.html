@@ -24,8 +24,8 @@
   .scroll-hint { font-size: 15px; color: #8a7a6a; font-family: 'Raleway', Arial, sans-serif; margin-top: 1rem; margin-bottom: 0.5rem; font-style: italic; letter-spacing: 0.5px; line-height: 1.6; }
   .scroll-hint .arrow { font-size: 18px; font-style: normal; margin-left: 4px; }
   /* Progress */
-  .progress-bar { background: #c8bdb4; height: 4px; }
-  .progress-fill { background: #5a4a3a; height: 4px; transition: width 0.4s ease; }
+  .progress-bar { background: #f0e8eb; height: 8px; }
+  .progress-fill { background: #E9D9DE; height: 8px; transition: width 0.4s ease; }
   /* Hero image */
   .quiz-hero-image { width: 100%; height: 180px; object-fit: cover; object-position: center 40%; display: block; }
   /* Section header */
@@ -160,7 +160,6 @@
     <div class="options-grid" id="options"></div>
     <div class="nav-row">
       <button class="btn btn-ghost" id="prevBtn" onclick="prevQ()" style="visibility:hidden">← Back</button>
-      <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next →</button>
     </div>
   </div>
   <div class="result-screen" id="rscreen">
@@ -335,15 +334,13 @@ function render() {
     opts.appendChild(div);
   });
   document.getElementById('prevBtn').style.visibility = current === 0 ? 'hidden' : 'visible';
-  document.getElementById('nextBtn').textContent = current === questions.length - 1 ? 'See my style →' : 'Next →';
-  document.getElementById('nextBtn').disabled = answers[current] === null;
+
 }
 function selectOption(i) {
   answers[current] = i;
   document.querySelectorAll('.option').forEach(function(el, idx) {
     el.classList.toggle('selected', idx === i);
   });
-  document.getElementById('nextBtn').disabled = false;
   // Auto-advance after short delay so selected state is visible
   setTimeout(function() { nextQ(); }, 400);
 }
