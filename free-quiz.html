@@ -395,36 +395,6 @@ function showResult() {
 }
 
 
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-
-  fetch('https://api.flodesk.com/v1/subscribers', {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email: email,
-      first_name: name,
-      segment_ids: ['6a45551ee6a0a745ba88724d']
-    })
-  })
-  .then(function() {
-    // no-cors always resolves — show success optimistically
-    document.getElementById('flodesk-form-wrap').querySelectorAll('input, button').forEach(function(el) { el.style.display = 'none'; });
-    successEl.style.display = 'block';
-    setTimeout(reportHeight, 200);
-  })
-  .catch(function(err) {
-    btn.disabled = false;
-    btn.textContent = 'Get the Free Guide';
-    errorEl.textContent = 'Something went wrong — please try again.';
-    errorEl.style.display = 'block';
-    console.warn('Flodesk error:', err);
-  });
-}
-
 function retake() {
   current = 0;
   answers = new Array(questions.length).fill(null);
