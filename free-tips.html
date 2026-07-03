@@ -160,18 +160,18 @@ function submitDownloadGate() {
   btn.disabled = true;
   btn.textContent = 'Sending...';
 
+  // Use FormData with no-cors — works without auth headers
+  var formData = new FormData();
+  formData.append('email', email);
+  formData.append('first_name', name);
+  formData.append('segment_ids[]', '6a45551ee6a0a745ba88724d');
+
   fetch('https://api.flodesk.com/v1/subscribers', {
     method: 'POST',
     mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email: email,
-      first_name: name,
-      segment_ids: ['6a45551ee6a0a745ba88724d']
-    })
+    body: formData
   })
   .then(function() {
-    // no-cors always resolves — show success optimistically
     document.getElementById('gateForm').style.display = 'none';
     document.getElementById('gatePrivacy').style.display = 'none';
     document.getElementById('gateSuccess').style.display = 'block';
