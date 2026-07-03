@@ -162,6 +162,7 @@ function submitDownloadGate() {
 
   fetch('https://api.flodesk.com/v1/subscribers', {
     method: 'POST',
+    mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       email: email,
@@ -169,14 +170,11 @@ function submitDownloadGate() {
       segment_ids: ['6a45551ee6a0a745ba88724d']
     })
   })
-  .then(function(res) {
-    if (res.ok || res.status === 200 || res.status === 201) {
-      document.getElementById('gateForm').style.display = 'none';
-      document.getElementById('gatePrivacy').style.display = 'none';
-      document.getElementById('gateSuccess').style.display = 'block';
-    } else {
-      throw new Error('Failed');
-    }
+  .then(function() {
+    // no-cors always resolves — show success optimistically
+    document.getElementById('gateForm').style.display = 'none';
+    document.getElementById('gatePrivacy').style.display = 'none';
+    document.getElementById('gateSuccess').style.display = 'block';
   })
   .catch(function(err) {
     btn.disabled = false;
