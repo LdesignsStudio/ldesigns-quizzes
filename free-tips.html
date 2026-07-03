@@ -27,19 +27,6 @@
   .benefit-num { width: 30px; height: 30px; border-radius: 50%; background: #f5f1ed; border: 1.5px solid #c0b4a8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #7a6a5a; flex-shrink: 0; font-family: 'Raleway', Arial, sans-serif; }
   .benefit-text { font-size: 15px; color: #3c3c3c; line-height: 1.6; padding-top: 4px; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; }
   .benefit-text strong { font-weight: 700; color: #2c2c2c; }
-  .gate-section { background: #faf8f6; border: 2px solid #7a6a5a; border-radius: 8px; margin: 2rem 0; padding: 2.5rem 2rem; text-align: center; }
-  .gate-section .gate-eyebrow-main { font-size: 15px; letter-spacing: 3px; text-transform: uppercase; color: #7a6a5a; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; margin-bottom: 0.75rem; }
-  .gate-section h2 { font-size: clamp(20px, 3.5vw, 28px); font-weight: 500; color: #2c2c2c; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.75rem; }
-  .gate-section p.gate-intro-main { font-size: 14px; color: #666; line-height: 1.7; margin-bottom: 1.75rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 300; max-width: 500px; margin-left: auto; margin-right: auto; }
-  .gate-form { max-width: 420px; margin: 0 auto; text-align: left; }
-  .gate-form input { width: 100%; padding: 12px 16px; margin-bottom: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: 'Raleway', Arial, sans-serif; }
-  .gate-form input:focus { outline: none; border-color: #7a6a5a; }
-  .gate-form button.gate-submit { display: block; width: 100%; padding: 13px 28px; background: #3c2e22; color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Raleway', Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: background 0.15s; margin-top: 0.25rem; }
-  .gate-form button.gate-submit:hover { background: #5a4a3a; }
-  .gate-form button.gate-submit:disabled { opacity: 0.6; cursor: default; }
-  .gate-error { color: #b3261e; font-size: 12px; margin-top: 0.5rem; display: none; font-family: 'Raleway', Arial, sans-serif; text-align: center; }
-  .gate-privacy { font-size: 11px; color: #999; margin-top: 1.25rem; line-height: 1.6; font-family: 'Raleway', Arial, sans-serif; text-align: center; }
-  .gate-privacy a { color: #7a6a5a; }
   .gate-success { display: none; text-align: center; }
   .gate-success .check { font-size: 40px; color: #7a6a5a; margin-bottom: 0.5rem; }
   .gate-success h3 { font-size: 20px; font-weight: 500; color: #2c2c2c; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.5rem; }
@@ -58,7 +45,7 @@
   @media (max-width: 768px) {
     body { padding: 0 30px 0.5rem; }
     .hero-image { height: 220px; }
-    .hero-section, .benefits-section, .gate-section, .quiz-nudge { padding: 1.75rem 1.25rem; }
+    .hero-section, .benefits-section, .quiz-nudge { padding: 1.75rem 1.25rem; }
   }
   @media (max-width: 480px) {
     body { padding: 0 12px 0.5rem; }
@@ -107,26 +94,6 @@
     </div>
   </div>
 
-  <div class="gate-section" id="gateSection">
-    <div class="gate-eyebrow-main">Get Your Free Copy</div>
-    <h2>Download the Guide</h2>
-    <p class="gate-intro-main">Enter your name and email below — we'll send the guide straight to your inbox.</p>
-
-    <div class="gate-form" id="gateForm">
-      <input type="text" id="gateName" placeholder="First name" autocomplete="given-name">
-      <input type="email" id="gateEmail" placeholder="Email address" autocomplete="email">
-      <button type="button" class="gate-submit" id="gateSubmitBtn" onclick="submitDownloadGate()">Send Me the Free Guide</button>
-      <div class="gate-error" id="gateError">Please enter a valid email address.</div>
-    </div>
-    <p class="gate-privacy" id="gatePrivacy">By submitting, you agree to receive your guide and occasional design tips &amp; offers from Ldesigns Interiors. See our <a href="https://www.ldesigns.ca/privacy" target="_blank">Privacy Policy</a>.</p>
-
-    <div class="gate-success" id="gateSuccess" style="display:none;">
-      <div class="check">✓</div>
-      <h3>Check your inbox!</h3>
-      <p>Your guide is on its way. If you don't see it within a few minutes, check your spam or promotions folder.</p>
-    </div>
-  </div>
-
   <div class="quiz-nudge">
     <div class="eyebrow">While You're Here</div>
     <h3>What's Your Design Style?</h3>
@@ -145,43 +112,7 @@
 // FLODESK — direct API submit via no-cors
 // Hosted on GitHub Pages so no Wix iframe sandbox restrictions
 // ============================================================
-function submitDownloadGate() {
-  var name = document.getElementById('gateName').value.trim();
-  var email = document.getElementById('gateEmail').value.trim();
-  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!emailPattern.test(email)) {
-    document.getElementById('gateError').style.display = 'block';
-    return;
-  }
-
-  document.getElementById('gateError').style.display = 'none';
-  var btn = document.getElementById('gateSubmitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-
-  // Use FormData with no-cors — works without auth headers
-  var formData = new FormData();
-  formData.append('email', email);
-  formData.append('first_name', name);
-  formData.append('segment_ids[]', '6a45551ee6a0a745ba88724d');
-
-  fetch('https://api.flodesk.com/v1/subscribers', {
-    method: 'POST',
-    mode: 'no-cors',
-    body: formData
-  })
-  .then(function() {
-    document.getElementById('gateForm').style.display = 'none';
-    document.getElementById('gatePrivacy').style.display = 'none';
-    document.getElementById('gateSuccess').style.display = 'block';
-  })
-  .catch(function(err) {
-    btn.disabled = false;
-    btn.textContent = 'Send Me the Free Guide';
-    document.getElementById('gateError').textContent = 'Something went wrong — please try again.';
-    document.getElementById('gateError').style.display = 'block';
-  });
 }
 
 
